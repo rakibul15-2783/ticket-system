@@ -20,13 +20,18 @@ Route::middleware('guest')->group(function(){
 });
 //for user
 Route::middleware('auth')->group(function(){
-    Route::post('/logout-post',[AuthController::class,'logout'])->name('logout');
+    Route::get('/logout',[AuthController::class,'logout'])->name('logout');
     Route::get('/user-dashboard',[UserController::class,'index'])->name('user.dashboard');
+    Route::get('/create-ticket',[UserController::class,'ticket'])->name('ticket');
+    Route::get('/show-ticket',[UserController::class,'showTicket'])->name('show.ticket');
+    Route::post('/store-ticket',[UserController::class,'storeTicket'])->name('store.ticket');
 
 });
 //for admin
 Route::middleware('auth','admin')->group(function(){
     Route::get('/admin-dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+    Route::get('/show-tickets',[AdminController::class,'showTickets'])->name('show.tickets');
+    Route::get('/open-ticket/{ticketId}',[AdminController::class,'openTicket'])->name('open.ticket');
 });
 
 

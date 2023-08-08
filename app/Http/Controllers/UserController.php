@@ -6,10 +6,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\Ticket;
 
 class UserController extends Controller
 {
    public function index(){
     return view('user.dashboard');
+   }
+   public function ticket(){
+    return view('user.create-ticket');
+   }
+   public function showTicket(){
+    $user = auth()->user()->id;
+    $ticket = Ticket::where('user_id', $user)->get();
+    return view('user.show-ticket',compact('ticket'));
+   }
+   public function storeTicket(Request $rqst){
+    $user_id = auth()->user()->id;
+    $tickets = new Ticket();
+    $tickets->user_id = $user_id;
+    $tickets->name = $rqst->name;
+    $tickets->email = $rqst->email;
+    $tickets->subject = $rqst->subject;
+    $tickets->category = $rqst->category;
+    $tickets->des = $rqst->des;
+    $tickets->save();
+    return redirect('show-ticket');
    }
 }

@@ -36,7 +36,7 @@
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('admin') }}\files\assets\images\avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                            <span>John Doe</span>
+                            <span>{{ auth()->user()->name }}</span>
                             <i class="feather icon-chevron-down"></i>
                         </div>
                         <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
@@ -47,12 +47,9 @@
                                 </a>
                             </li>
                             <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf <!-- Include the CSRF token -->
-                                    <button type="submit" class="btn-info">
-                                        <i class="feather icon-log-out"></i> Logout
-                                    </button>
-                                </form>
+                                <a href="{{ route('logout') }}">
+                                    <i class="feather icon-user"></i> Log out
+                                </a>
                             </li>
                         </ul>
                     </div>
