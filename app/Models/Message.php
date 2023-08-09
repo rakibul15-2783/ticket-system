@@ -5,21 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ticket extends Model
+class Message extends Model
 {
     use HasFactory;
-    protected $filable = [
-        'user_id','name','email','subject','category','des','assignto','status'
+    protected $fillable = [
+        'ticket_id','user_id','message'
     ];
 
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
     public function user(){
         {
             return $this->belongsTo(User::class);
         }
     }
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
-
 }
