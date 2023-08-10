@@ -18,10 +18,12 @@
             <div class="card bg-white" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
                   @foreach ($ticket as $ticket)
-                   <a href="{{ route('view.ticket', ['ticketId' => $ticket->id]) }}" class="list-group-item list-group-item"><li class="list-group-item"><strong>Subject: </strong>{{ $ticket->subject }} 
+                   <a href="{{ route('view.ticket', ['ticketId' => $ticket->id]) }}" class="list-group-item list-group-item"><li class="list-group-item"><strong>Subject: </strong>{{ $ticket->subject }}
                     @if ($ticket->status == 0)
-                    <span class="badge badge-danger">Open</span>
-                    @elseif ($ticket->status == 1 || $ticket->status == 2)
+                    <span class="badge badge-danger">Not Open</span>
+                    @elseif ($ticket->status == 1 )
+                    <span class="badge badge-danger">Assigned</span>
+                    @elseif ($ticket->status == 2 )
                     <span class="badge badge-danger">Processing</span>
                     @elseif ($ticket->status == 3)
                     <span class="badge badge-danger">Closed</span>

@@ -24,7 +24,7 @@
     @endif
         <div class="col-md-12 col-lg-8">
             <div class="chat-message " >
-                <form action="{{ route('message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('userMessage.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="input-group col-lg-6 mb-0">

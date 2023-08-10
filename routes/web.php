@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/show-ticket',[UserController::class,'showTicket'])->name('show.ticket');
     Route::post('/store-ticket',[UserController::class,'storeTicket'])->name('store.ticket');
     Route::get('/view-ticket/{ticketId}',[UserController::class,'viewTicket'])->name('view.ticket');
+    Route::post('/user-message-post/{ticketId}',[AdminController::class,'message'])->name('userMessage.post');
 
 });
 //for admin

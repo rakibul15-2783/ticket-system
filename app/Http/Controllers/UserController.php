@@ -41,4 +41,14 @@ class UserController extends Controller
     $messages = Message::where('ticket_id', $ticketId)->get();
     return view('user.view-ticket',compact('ticket','messages'));
    }
+   //message from user
+   public function message(Request $rqst, $ticketId)
+    {
+        $message = new Message();
+        $message->user_id = auth()->user()->id;
+        $message->ticket_id = $ticketId;
+        $message->message = $rqst->message;
+        $message->save();
+        return back();
+    }
 }

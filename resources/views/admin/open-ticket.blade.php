@@ -3,10 +3,10 @@
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">
-                <h4>Open Ticket</h4>
+            <p>/ Tickets / ticket_id #{{$ticket->id}}</p>
         </div>
     </div>
-</div><br><br>
+</div><br>
 <div class="page-wrapper">
    <div class="row">
         <div class="col-md-12 col-lg-3">

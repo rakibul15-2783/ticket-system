@@ -3,12 +3,10 @@
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">
-            <div class="d-inline">
-                <h4>Tickets</h4>
-            </div>
+            <p>/ Tickets</p>
         </div>
     </div>
-</div><br><br>
+</div><br>
 <div class="container">
     <div class="card shadow">
     <ul class="list-group">
@@ -31,7 +29,9 @@
                 <div class="col-md-2">
                     @if ($ticket->status == 0)
                     <span class="badge badge-danger">Open</span>
-                    @elseif ($ticket->status == 1 || $ticket->status == 2)
+                    @elseif ($ticket->status == 1 )
+                    <span class="badge badge-danger">Assigned</span>
+                    @elseif ($ticket->status == 2 )
                     <span class="badge badge-danger">Processing</span>
                     @elseif ($ticket->status == 3)
                     <span class="badge badge-danger">Closed</span>
@@ -49,7 +49,9 @@
                 <div class="col-md-2">
                     @if ($ticket->status == 0)
                     <span class="badge badge-danger">Open</span>
-                    @elseif ($ticket->status == 1 || $ticket->status == 2)
+                    @elseif ($ticket->status == 1 )
+                    <span class="badge badge-danger">Assigned</span>
+                    @elseif ($ticket->status == 2 )
                     <span class="badge badge-danger">Processing</span>
                     @elseif ($ticket->status == 3)
                     <span class="badge badge-danger">Closed</span>

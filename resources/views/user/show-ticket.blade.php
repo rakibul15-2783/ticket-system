@@ -33,8 +33,10 @@
                 <div class="col-md-2">{{ $ticket->assignto }}</div>
                 <div class="col-md-2">
                     @if ($ticket->status == 0)
-                    <span class="badge badge-danger">Open</span>
-                    @elseif ($ticket->status == 1 || $ticket->status == 2)
+                    <span class="badge badge-danger">Not Open</span>
+                    @elseif ($ticket->status == 1 )
+                    <span class="badge badge-danger">Assigned</span>
+                    @elseif ($ticket->status == 2 )
                     <span class="badge badge-danger">Processing</span>
                     @elseif ($ticket->status == 3)
                     <span class="badge badge-danger">Closed</span>
