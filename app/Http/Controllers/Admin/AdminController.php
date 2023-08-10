@@ -24,15 +24,14 @@ class AdminController extends Controller
     //open a ticket
     public function openTicket($ticketId)
     {
-        $users = User::all();
+        $users = User::where('role', 1)->get();
         $ticket = Ticket::find($ticketId);
         $messages = Message::where('ticket_id', $ticketId)->get();
-        if($ticket->flag == false){
+            if($ticket->flag == false){
                 $ticket->assignto = auth()->user()->id;
                 $ticket->status = 1;
                 $ticket->save();
         }
-
         return view('admin.open-ticket', compact('ticket', 'messages', 'users'));
     }
     //status and assigned to change
@@ -50,7 +49,7 @@ class AdminController extends Controller
             $ticket->status = $rqst->status;
             $ticket->flag = true;
             $ticket->update();
-            return back();
+            return redirect('show-tickets');
         }
     }
     //messege from admin

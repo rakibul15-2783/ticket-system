@@ -15,7 +15,9 @@ class UserController extends Controller
     return view('user.dashboard');
    }
    public function ticket(){
-    return view('user.create-ticket');
+    $user = auth()->user()->id;
+    $ticket = Ticket::where('user_id', $user)->get();
+    return view('user.create-ticket',compact('ticket'));
    }
    public function showTicket(){
     $user = auth()->user()->id;

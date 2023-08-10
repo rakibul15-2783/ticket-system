@@ -24,16 +24,14 @@
                 <div class="text-center">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><p><b>Assign to </b></p>
-                        
+
                             <form action="{{ route('status.post', ['ticket' => $ticket]) }}" method="POST">
                                 @csrf
                                 <select name="assignto" class="text-center form-control" id="assignto">
                                     @foreach ($users as $user)
-                                        @if($user->role===1)
-                                            <option value="{{ $user->id }}" {{ $ticket->assignto === $user->id ? "selected" : ""}}>{{$user->name}}</option>
-                                        @endif
+                                            <option value="{{ $user->id }}" {{ $ticket->assignto === $user->id ? "selected" : ""}}>{{$user->email}}</option>
                                     @endforeach
-                                </select>
+                                </select><br>
                                 <select name="status" class="form-control text-center" id="status">
                                     <option value="0" @if ($ticket->status === 0) selected @endif>Unassigned</option>
                                     <option value="1" @if ($ticket->status === 1) selected @endif>Assigned</option>
@@ -49,19 +47,24 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 col-lg-9">
-            <div class="card shadow rounded border-primary">
-                <div class="card-header bg-light">
-                 <strong>{{ $ticket->name }}</strong><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
-                </div>
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p>{{ $ticket->des }}</p>
-                    </blockquote>
-                </div>
-            </div>
-            @foreach ($messages->sortBy('created_at') as $message)
-            <div class="card rounded border-primary">
+        <div class="col-md-12 col-lg-8">
+            <div class="chat-message " >
+                <form action="{{ route('message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="input-group col-lg-6 mb-0">
+                            <textarea type="text" name="message" class="form-control" placeholder="Reply here..."></textarea>
+                        </div><br>
+                        <div class="input-group col-lg-6 mb-0">
+                            <input class="form-control  mr-3" id="formFileSm" type="file" multiple />
+                            <button class="btn btn-info text-center"><i class="fa-regular fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+
+                </form>
+            </div><br><br>
+            @foreach ($messages->sortByDesc('created_at') as $message)
+            <div class="card  border-primary">
                 <div class="card-header bg-light">
                  <strong>{{ $message->user->name }}</strong><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
                 </div>
@@ -71,8 +74,17 @@
                     </blockquote>
                 </div>
             </div>
-
             @endforeach
+            <div class="card border-primary">
+                <div class="card-header bg-light">
+                 <strong>{{ $ticket->name }}</strong><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>{{ $ticket->des }}</p>
+                    </blockquote>
+                </div>
+            </div>
         </div>
    </div>
 </div>
