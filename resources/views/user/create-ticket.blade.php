@@ -39,19 +39,13 @@
                             <div class="row mb-3">
                                 <label for="name" class="col-sm-3 col-form-label">Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="name" value="" required class="form-control" id="name" placeholder="Enter Your Name">
-                                    @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <input type="text" name="name" value="{{ auth()->user()->name }}" required class="form-control" id="name" >
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="email" class="col-sm-3 col-form-label">Email</label>
                                 <div class="col-sm-9">
-                                    <input type="email" name="email" value="" required class="form-control" id="email" placeholder="Enter Your Email">
-                                    @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <input type="email" name="email" value="{{ auth()->user()->email }}" required class="form-control" id="email" >
                                 </div>
                             </div>
                             <div class="row mb-3">

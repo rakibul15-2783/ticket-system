@@ -11,30 +11,56 @@ use App\Models\Message;
 
 class AdminController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('admin.dashboard');
     }
     //show all ticket
-    public function showTickets(){
+    public function showTickets()
+    {
         $tickets = Ticket::all();
-        return view('admin.show-tickets',compact('tickets'));
+        return view('admin.show-tickets', compact('tickets'));
     }
     //open a ticket
-    public function openTicket($ticketId){
+    public function openTicket($ticketId)
+    {
         $users = User::all();
         $ticket = Ticket::find($ticketId);
         $messages = Message::where('ticket_id', $ticketId)->get();
-        return view('admin.open-ticket',compact('ticket','messages','users'));
-    }
-    public function status(Request $rqst, $ticketId){
-        $ticket = Ticket::find($ticketId);
+        if($ticket->flag == false){
+                $ticket->assignto = auth()->user()->id;
+                $ticket->status = 1;
+                $ticket->save();
+        }
 
-        if ($ticket) {
+        return view('admin.open-ticket', compact('ticket', 'messages', 'users'));
+    }
+    //status and assigned to change
+    public function status(Request $rqst, Ticket $ticket)
+    {
+        if($rqst->status == 0){
+            $ticket->assignto = null;
+            $ticket->status = $rqst->status;
+            $ticket->flag = false;
+            $ticket->update();
+            return redirect('show-tickets');
+        }
+        else{
             $ticket->assignto = $rqst->assignto;
             $ticket->status = $rqst->status;
-            $ticket->save();
+            $ticket->flag = true;
+            $ticket->update();
+            return back();
         }
+    }
+    //messege from admin
+    public function message(Request $rqst, $ticketId)
+    {
+        $message = new Message();
+        $message->user_id = auth()->user()->id;
+        $message->ticket_id = $ticketId;
+        $message->message = $rqst->message;
+        $message->save();
         return back();
-
     }
 }

@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/create-ticket',[UserController::class,'ticket'])->name('ticket');
     Route::get('/show-ticket',[UserController::class,'showTicket'])->name('show.ticket');
     Route::post('/store-ticket',[UserController::class,'storeTicket'])->name('store.ticket');
+    Route::get('/view-ticket/{ticketId}',[UserController::class,'viewTicket'])->name('view.ticket');
 
 });
 //for admin
@@ -32,8 +33,8 @@ Route::middleware('auth','admin')->group(function(){
     Route::get('/admin-dashboard',[AdminController::class,'index'])->name('admin.dashboard');
     Route::get('/show-tickets',[AdminController::class,'showTickets'])->name('show.tickets');
     Route::get('/open-ticket/{ticketId}',[AdminController::class,'openTicket'])->name('open.ticket');
-    Route::post('/message-post',[AdminController::class,'message'])->name('message.post');
-    Route::post('/status-post/{ticketId}',[AdminController::class,'status'])->name('status.post');
+    Route::post('/message-post/{ticketId}',[AdminController::class,'message'])->name('message.post');
+    Route::post('/status-post/{ticket}',[AdminController::class,'status'])->name('status.post');
 });
 
 

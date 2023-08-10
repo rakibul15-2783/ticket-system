@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     use HasFactory;
+
     protected $filable = [
-        'user_id','name','email','subject','category','des','assignto','status'
+        'user_id','name','email','subject','category','des','assignto','status','flag'
     ];
 
     public function user(){

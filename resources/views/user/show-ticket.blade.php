@@ -71,7 +71,7 @@
                                             <td>{{ $ticket->category }}</td>
                                             <td>{{ $ticket->des }}</td>
                                             <td>{{ $ticket->created_at->format('F j, Y, g:i A') }}</td>
-                                            <td><a href="" class="btn  btn-sm btn-info">View</a></td>
+                                            <td><a href="{{ route('view.ticket',['ticketId' => $ticket->id]) }}" class="btn  btn-sm btn-info">View</a></td>
                                         </tr>
                                     @endforeach
 

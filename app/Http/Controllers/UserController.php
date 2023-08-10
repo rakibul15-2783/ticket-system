@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Ticket;
+use App\Models\Message;
 
 class UserController extends Controller
 {
@@ -32,5 +33,10 @@ class UserController extends Controller
     $tickets->des = $rqst->des;
     $tickets->save();
     return redirect('show-ticket');
+   }
+   public function viewTicket($ticketId){
+    $ticket = Ticket::find($ticketId);
+    $messages = Message::where('ticket_id', $ticketId)->get();
+    return view('user.view-ticket',compact('ticket','messages'));
    }
 }
