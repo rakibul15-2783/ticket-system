@@ -1,5 +1,19 @@
 @extends('user.includes.master')
 @section('main-content')
+{{-- image size --}}
+<style>
+    .image-container {
+    display: flex;
+    gap: 10px;
+}
+
+.thumbnail img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+</style>
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">
@@ -31,7 +45,7 @@
                             <textarea type="text" name="message" class="form-control" placeholder="Reply here..."></textarea>
                         </div><br>
                         <div class="input-group col-lg-6 mb-0">
-                            <input class="form-control  mr-3" id="formFileSm" type="file" multiple />
+                            <input class="form-control  mr-3" name="images[]" id="formFileSm" type="file" multiple />
                             <button class="btn btn-info text-center"><i class="fa-regular fa-paper-plane"></i></button>
                         </div>
                     </div>
@@ -46,6 +60,15 @@
                     <blockquote class="blockquote mb-0">
                         <p>{{ $message->message }}</p>
                     </blockquote>
+                </div>
+                <div class="image-container">
+                    @if ($message->images->count() > 0)
+                    @foreach ($message->images as $image)
+                        <div class="thumbnail">
+                            <img src="{{ asset('upload/images/'.$image->images) }}" alt="Uploaded Image">
+                        </div>
+                    @endforeach
+                    @endif
                 </div>
             </div>
             @endforeach

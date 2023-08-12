@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMessagesTable extends Migration
+class AddUserIdToImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
-            $table->id();
+        Schema::table('images', function (Blueprint $table) {
             $table->bigInteger('user_id');
-            $table->bigInteger('ticket_id');
-            $table->text('message')->nullable();
-            $table->timestamps();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::table('images', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
     }
 }

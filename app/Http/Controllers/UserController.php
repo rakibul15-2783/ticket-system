@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Ticket;
 use App\Models\Message;
+use App\Models\Images;
 
 class UserController extends Controller
 {
@@ -39,16 +40,18 @@ class UserController extends Controller
    public function viewTicket($ticketId){
     $ticket = Ticket::find($ticketId);
     $messages = Message::where('ticket_id', $ticketId)->get();
-    return view('user.view-ticket',compact('ticket','messages'));
+    $images = Images::where('ticket_id', $ticketId)->get();
+    return view('user.view-ticket',compact('ticket','messages','images'));
    }
    //message from user
-   public function message(Request $rqst, $ticketId)
+   public function message(Request $request, $ticketId)
     {
-        $message = new Message();
-        $message->user_id = auth()->user()->id;
-        $message->ticket_id = $ticketId;
-        $message->message = $rqst->message;
-        $message->save();
+        dd($request->all());
+        // $message = new Message();
+        // $message->user_id = auth()->user()->id;
+        // $message->ticket_id = $ticketId;
+        // $message->message = $request->message;
+        // $message->save();
         return back();
     }
 }

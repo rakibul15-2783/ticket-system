@@ -9,7 +9,7 @@ class Message extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'ticket_id','user_id','message'
+        'ticket_id','user_id'
     ];
 
     public function ticket()
@@ -19,6 +19,11 @@ class Message extends Model
     public function user(){
         {
             return $this->belongsTo(User::class);
+        }
+    }
+    public function images(){
+        {
+            return $this->hasMany(Images::class);
         }
     }
 }

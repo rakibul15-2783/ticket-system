@@ -88,7 +88,7 @@
                             <div class="row">
                                 <label class="col-sm-3  col-form-label"></label>
                                 <div class="col-sm-9 ">
-                                    <button type="submit" name="submit" class="btn btn-info px-5 btn-order text-center">Submit</button>
+                                    <button type="submit" name="submit" class="btn btn-info px-5 btn-order text-center">Create Ticket</button>
                                 </div>
                             </div>
                         </form>
