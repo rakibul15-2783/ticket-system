@@ -83,4 +83,15 @@ class AdminController extends Controller
         return back();
     }
 
+    //searching
+    public function search(Request $request){
+        $search = $request->input('search');
+        $tickets = Ticket::join('users', 'tickets.assignto', '=', 'users.id')
+                    ->where('users.email', 'LIKE', '%' . $search . '%')
+                    ->select('tickets.*')
+                    ->get();
+
+    return view('admin.search-tickets', compact('tickets'));
+    }
+
 }

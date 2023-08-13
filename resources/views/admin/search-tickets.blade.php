@@ -15,7 +15,10 @@
         <div class="col-md-6">
             <form action="{{ route('search.tickets') }}"  methot="POST">
             <div class="input-group">
-                <input class="form-control" name="search" placeholder="Search by your email..." type="text">
+                <input class="form-control" name="search" placeholder="Search here..." value="{{ Request::get('search') }}" type="text">
+                <div class="input-group-append pt-2">
+                    <a href="{{ route('show.tickets') }}" class="btn-sm btn-danger"><i class="fa-solid fa-xmark"></i></a>
+                </div>
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-info">Search</button>
                 </div>
