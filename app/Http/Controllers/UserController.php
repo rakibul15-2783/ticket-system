@@ -22,8 +22,8 @@ class UserController extends Controller
    }
    public function showTicket(){
     $user = auth()->user()->id;
-    $ticket = Ticket::where('user_id', $user)->get();
-    return view('user.show-ticket',compact('ticket'));
+    $tickets = Ticket::where('user_id', $user)->get();
+    return view('user.show-ticket',compact('tickets'));
    }
    public function storeTicket(Request $rqst){
     $user_id = auth()->user()->id;

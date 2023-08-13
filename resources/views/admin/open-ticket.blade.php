@@ -94,13 +94,14 @@
                 </div>
                 <div class="image-container p-0">
                     @if ($message->images->count() > 0)
-                    @foreach ($message->images as $image)
-                        <div class="thumbnail">
-                            <img src="{{ asset('upload/images/'.$image->images) }}" alt="Uploaded Image">
-                        </div>
-                    @endforeach
+                        @foreach ($message->images as $image)
+                            <div class="thumbnail preview-link" data-toggle="modal" data-target="#imageModal" data-image="{{ asset('upload/images/'.$image->images) }}">
+                                <img src="{{ asset('upload/images/'.$image->images) }}" alt="Uploaded Image">
+                            </div>
+                        @endforeach
                     @endif
                 </div>
+
             </div>
             @endforeach
             <div class="card border-primary ">

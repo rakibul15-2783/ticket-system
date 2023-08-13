@@ -54,10 +54,9 @@ class AdminController extends Controller
             return redirect('show-tickets');
         }
     }
-    //messege from admin
+    //messege from admin and user
     public function message(Request $request, $ticketId)
     {
-
         $message = new Message();
         $message->message = $request->message;
         $message->user_id = auth()->user()->id;
@@ -76,11 +75,8 @@ class AdminController extends Controller
                 $images->images = $fileName;
                 $images->save();
             }
-
             return back();
-
         }
-
         return back();
     }
 }

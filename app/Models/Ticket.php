@@ -24,7 +24,12 @@ class Ticket extends Model
     }
     public function images()
     {
-        return $this->hasMany(Images::class); 
+        return $this->hasMany(Images::class);
     }
+    public function assignee()
+    {
+        return $this->belongsTo(User::class, 'assignto');
+    }
+
 
 }

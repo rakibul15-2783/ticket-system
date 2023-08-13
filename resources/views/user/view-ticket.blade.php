@@ -13,6 +13,14 @@
     object-fit: cover;
     border: 1px solid #ccc;
 }
+.messages {
+    padding: 10px;
+    color: white;
+    padding: 15px;
+    height: 760px;
+    overflow: scroll;
+    border: 1px solid #ccc;
+}
 </style>
 <div class="row align-items-end">
     <div class="col-lg-9">
@@ -45,23 +53,30 @@
                             <textarea type="text" name="message" class="form-control" placeholder="Reply here..."></textarea>
                         </div><br>
                         <div class="input-group col-lg-6 mb-0">
-                            <input class="form-control  mr-3" name="images[]" id="formFileSm" type="file" multiple />
+                            <input class="form-control  mr-3" name="images[]" id="user-images" type="file" multiple />
                             <button class="btn btn-info text-center"><i class="fa-regular fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </form>
-            </div><br><br>
+                <div class="row">
+                    <div class="input-group col-lg-6 mb-0">
+                    </div><br>
+                    <div class="input-group col-lg-6 mb-0">
+                        <div id="user-selected-files">
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <div class="messages">
             @foreach ($messages->sortByDesc('created_at') as $message)
             <div class="card  border-primary">
-                <div class="card-header bg-light">
+                <div class="card-header bg-light p-2">
                  <strong>{{ $message->user->name }}</strong><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
                 </div>
                 <div class="card-body">
-                    <blockquote class="blockquote mb-0">
                         <p>{{ $message->message }}</p>
-                    </blockquote>
                 </div>
-                <div class="image-container">
+                <div class="image-container p-0">
                     @if ($message->images->count() > 0)
                     @foreach ($message->images as $image)
                         <div class="thumbnail">
@@ -73,15 +88,27 @@
             </div>
             @endforeach
             <div class="card border-primary">
-                <div class="card-header bg-light">
+                <div class="card-header bg-light p-2">
                  <strong>{{ $ticket->name }}</strong><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
                 </div>
                 <div class="card-body">
-                    <blockquote class="blockquote mb-0">
                         <p>{{ $ticket->des }}</p>
-                    </blockquote>
                 </div>
             </div>
         </div>
+        </div>
    </div>
+   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script>
+    jQuery(document).ready(function(){
+        jQuery('#user-images').on('change', function(){
+            var files = jQuery(this).prop('files');
+            var selectedFileText = '';
+            for(var i = 0; i< files.length; i++){
+                selectedFileText += ' ' +'<span>' + files[i].name + ' , ' + '</span>' ;
+            }
+            jQuery('#user-selected-files').html(selectedFileText);
+        });
+    });
+</script>
 @endsection
