@@ -25,18 +25,30 @@ class UserController extends Controller
     $tickets = Ticket::where('user_id', $user)->get();
     return view('user.show-ticket',compact('tickets'));
    }
-   public function storeTicket(Request $rqst){
+   public function storeTicket(Request $request)
+   {
     $user_id = auth()->user()->id;
-    $tickets = new Ticket();
-    $tickets->user_id = $user_id;
-    $tickets->name = $rqst->name;
-    $tickets->email = $rqst->email;
-    $tickets->subject = $rqst->subject;
-    $tickets->category = $rqst->category;
-    $tickets->des = $rqst->des;
-    $tickets->save();
-    return redirect('show-ticket');
-   }
+
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'subject' => 'required|string|max:255',
+        'category' => 'required|string|max:255',
+        'des' => 'required|string',
+    ]);
+
+    $ticket = new Ticket();
+    $ticket->user_id = $user_id;
+    $ticket->name = $validatedData['name'];
+    $ticket->email = $validatedData['email'];
+    $ticket->subject = $validatedData['subject'];
+    $ticket->category = $validatedData['category'];
+    $ticket->des = $validatedData['des'];
+    $ticket->save();
+
+    return redirect('show-ticket')->with('success', 'Ticket Created Successfully');
+    }
+
    public function viewTicket($ticketId){
     $ticket = Ticket::find($ticketId);
     $messages = Message::where('ticket_id', $ticketId)->get();

@@ -94,6 +94,11 @@
                                         <div class="col-md-12">
                                             <button type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Sign in</button>
                                         </div>
+                                        @if (session('error'))
+                                            <div class="col-md-12 text-center alert-danger">
+                                                {{ session('error') }}
+                                            </div>
+                                        @endif
                                     </div>
                                     <hr>
                                     <div class="row">

@@ -58,6 +58,15 @@
                         </div>
                     </div>
                 </form>
+                <div class="row file-type">
+                    <div class="input-group col-lg-6 mb-0">
+                    </div><br>
+                    <div class="input-group col-lg-6 mb-0">
+                        <div id="">
+                            <span>File type: jpeg, png, jpg, gif</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="input-group col-lg-6 mb-0">
                     </div><br>
@@ -102,6 +111,7 @@
 <script>
     jQuery(document).ready(function(){
         jQuery('#user-images').on('change', function(){
+            jQuery('.file-type').hide();
             var files = jQuery(this).prop('files');
             var selectedFileText = '';
             for(var i = 0; i< files.length; i++){

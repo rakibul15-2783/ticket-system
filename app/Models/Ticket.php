@@ -30,6 +30,10 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class, 'assignto');
     }
+    public function latestMessage()
+    {
+        return $this->hasOne(Message::class)->latest();
+    }
 
 
 }

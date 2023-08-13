@@ -28,7 +28,7 @@ class AuthController extends Controller
            return redirect()->route('user.dashboard');
        }
 
-       return back();
+       return back()->with('error','Email or Password is Invalid.');
 
     }
     public function logout(){

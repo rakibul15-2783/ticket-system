@@ -7,6 +7,13 @@
             <p>/ My Tickets</p>
         </div>
     </div>
+    <div class="text-right">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+    </div>
 </div><br>
 <div class="container">
     <strong>Your All Tickets</strong><br><br>
@@ -21,7 +28,7 @@
                     <div class="col-md-2"><b>Subject</b></div>
                     <div class="col-md-2"><b>Assign to</b></div>
                     <div class="col-md-2"><b>Status</b></div>
-                    <div class="col-md-2"><b>Date/Time</b></div>
+                    <div class="col-md-2"><b>Last Update</b></div>
                 </div>
             </li>
             <li>
@@ -41,25 +48,35 @@
                         @if ($ticket->status == 0)
                         <span class="badge badge-danger">Not Open</span>
                         @elseif ($ticket->status == 1 )
-                        <span class="badge badge-danger">Assigned</span>
+                        <span class="badge badge-warning">Assigned</span>
                         @elseif ($ticket->status == 2 )
-                        <span class="badge badge-danger">Processing</span>
+                        <span class="badge badge-info">Processing</span>
                         @elseif ($ticket->status == 3)
-                        <span class="badge badge-danger">Closed</span>
+                        <span class="badge badge-success">Closed</span>
                         @endif
                     </div>
-                    <div class="col-md-2">{{ $ticket->created_at->format('F j, Y, g:i A') }}</div>
+                    <div class="col-md-2">
+                        @if ($ticket->latestMessage)
+                            {{ $ticket->latestMessage->created_at->format('F j, Y, g:i A') }}
+                        @else
+                            No updates yet
+                        @endif
+                    </div>
                 </div>
             </a>
             </li>
+
             @endforeach
+            {{-- <li class="list-group-item list-group-item">
+                <div class="pagination">
+                    {{ $tickets->links() }}
+                </div>
+            </li> --}}
         </ul>
         @endif
     </div>
 </div>
-{{-- <div class="pagination">
-    {{ $tickets->links() }}
-</div> --}}
+
  @endsection
 
 
