@@ -62,7 +62,7 @@ class AdminController extends Controller
         ]);
 
         if (empty($request->message) && !$request->hasFile('images')) {
-            return back();
+            return back()->with('error','Message was empty!');
         }
 
         $message = new Message();
