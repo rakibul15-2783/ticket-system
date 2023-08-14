@@ -43,13 +43,3 @@ Route::middleware('auth','admin')->group(function(){
 
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
-
-
-// View::composer('admin.includes.sidebar', function($view){
-
-//       $tickets = App\Models\Ticket::orderBy('id','desc')->get();
-//       $view->with('tickets',$tickets);
-// });
-
-
-
