@@ -25,7 +25,7 @@
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">
-            <p>/ My Tickets / Ticket</p>
+            <p>/ My Tickets / ticket_id #{{$ticket->id}}</p>
         </div>
     </div>
 </div><br>
@@ -57,10 +57,13 @@
                             <button class="btn btn-info text-center"><i class="fa-regular fa-paper-plane"></i></button>
                         </div>
                     </div>
-                </form> 
+                </form>
                 <div class="row file-type">
-                    <div class="input-group col-lg-6 mb-0">
-                    </div><br>
+                    <div class="input-group col-lg-6 mb-0 ">
+                        @if (session('error'))
+                           <span class="text-danger">{{ session('error') }}</span>
+                        @endif
+                       </div><br>
                     <div class="input-group col-lg-6 mb-0">
                         <div id="">
                             <span>File type: jpeg, png, jpg, gif</span>
@@ -76,7 +79,8 @@
                     </div>
                 </div>
             </div><br>
-            <div class="messages">
+
+            <div class="messages card">
             @foreach ($messages->sortByDesc('created_at') as $message)
             <div class="card  border-primary">
                 <div class="card-header bg-light p-2">
@@ -85,7 +89,7 @@
                 <div class="card-body">
                         <p>{{ $message->message }}</p>
                 </div>
-                <div class="image-container p-0">
+                <div class="image-container ml-4">
                     @if ($message->images->count() > 0)
                     @foreach ($message->images as $image)
                         <div class="thumbnail">

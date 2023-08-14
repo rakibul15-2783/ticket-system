@@ -29,7 +29,7 @@
         </div>
     </div>
 </div><br>
-<div class="page-wrapper">
+<div class="page-wrapper p-0">
    <div class="row">
         <div class="col-md-12 col-lg-3">
             <h5>Ticket Information</h5><br>
@@ -84,8 +84,11 @@
                     </div>
                 </form>
                 <div class="row file-type">
-                    <div class="input-group col-lg-6 mb-0">
-                    </div><br>
+                    <div class="input-group col-lg-6 mb-0 ">
+                    @if (session('error'))
+                       <span class="text-danger">{{ session('error') }}</span>
+                    @endif
+                   </div><br>
                     <div class="input-group col-lg-6 mb-0">
                         <div id="">
                             <span>File type: jpeg, png, jpg, gif</span>
@@ -101,20 +104,25 @@
                     </div>
                 </div>
             </div><br>
-            <div class="messages">
+            <div class="messages card">
             @foreach ($messages->sortByDesc('created_at') as $message)
-            <div class="card  border-primary">
-                <div class="card-header bg-light p-2">
-                 <strong>{{ $message->user->name }}</strong><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+            <div class="card rounded border">
+                <div class="card-header border-primary bg-light p-2">
+                    @if ($message->user->role==1)
+                    <small class="text-success"><b>Sent From Admin</b></small><br><small class="text-success">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+                    @else
+                    <small class="text-dark"><b>Sent From Customer</b></small><br><small class="text-dark">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+                    @endif
+
                 </div>
                 <div class="card-body">
                         <p>{{ $message->message }}</p>
                 </div>
-                <div class="image-container p-0">
+                <div class="image-container ml-4 ">
                     @if ($message->images->count() > 0)
                         @foreach ($message->images as $image)
-                        <div class="thumbnail">
-                            <img src="{{ asset('upload/images/'.$image->images) }}" alt="Uploaded Image">
+                        <div class="thumbnail ">
+                            <img src="{{ asset('upload/images/'.$image->images) }}"  alt="Uploaded Image">
                         </div>
                         @endforeach
                     @endif

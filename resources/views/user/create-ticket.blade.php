@@ -56,7 +56,7 @@
                             <div class="row mb-3">
                                 <label for="subject" class="col-sm-3 col-form-label">Subject</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="subject" value="" required class="form-control" id="subject" placeholder="Subject">
+                                    <input type="text" name="subject" value="{{ old('subject') }}" required class="form-control" id="subject" placeholder="Subject">
                                     @error('subject')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -79,7 +79,7 @@
                             <div class="row mb-3">
                                 <label for="des" class="col-sm-3 col-form-label">Description</label>
                                 <div class="col-sm-9">
-                                    <textarea name="des" required class="form-control" id="des" placeholder="Describe Your Problem"></textarea>
+                                    <textarea name="des" required class="form-control" id="des" placeholder="Describe Your Problem" >{{ old('des') }}</textarea>
                                     @error('des')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
