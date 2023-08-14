@@ -67,11 +67,11 @@
             </li>
 
             @endforeach
-            {{-- <li class="list-group-item list-group-item">
-                <div class="pagination">
-                    {{ $tickets->links() }}
+            <li class="list-group-item list-group-item ">
+                <div class="pagination pull-right">
+                    {{ $tickets->withQueryString()->links('pagination::bootstrap-4') }}
                 </div>
-            </li> --}}
+            </li>
         </ul>
         @endif
     </div>

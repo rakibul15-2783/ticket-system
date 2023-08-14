@@ -22,7 +22,7 @@ class UserController extends Controller
    }
    public function showTicket(){
     $user = auth()->user()->id;
-    $tickets = Ticket::where('user_id', $user)->get();
+    $tickets = Ticket::where('user_id', $user)->paginate(5);
     return view('user.show-ticket',compact('tickets'));
    }
    public function storeTicket(Request $request)

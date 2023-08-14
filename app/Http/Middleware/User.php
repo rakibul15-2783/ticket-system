@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Models\Ticket;
 
-class ticketAccessControl
+class User
 {
     /**
      * Handle an incoming request.
@@ -17,12 +16,7 @@ class ticketAccessControl
      */
     public function handle(Request $request, Closure $next)
     {
-        $ticketId = $request->route('ticketId');
-        $ticket = Ticket::find($ticketId);
-        if($request->user()->id == $ticket->assignto || $ticket->assignto == null) {
-            return $next($request);
-        }
-        if($request->user()->email == $ticket->email ) {
+        if($request->user()->role == 2) {
             return $next($request);
         }
         return back();

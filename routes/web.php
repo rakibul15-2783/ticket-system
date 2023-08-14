@@ -19,13 +19,13 @@ Route::middleware('guest')->group(function(){
     Route::post('/login-post',[AuthController::class,'loginpost'])->name('login.post');
 });
 //for user
-Route::middleware('auth')->group(function(){
+Route::middleware('auth','user')->group(function(){
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
     Route::get('/user-dashboard',[UserController::class,'index'])->name('user.dashboard');
     Route::get('/create-ticket',[UserController::class,'ticket'])->name('ticket');
     Route::get('/show-ticket',[UserController::class,'showTicket'])->name('show.ticket');
     Route::post('/store-ticket',[UserController::class,'storeTicket'])->name('store.ticket');
-    Route::get('/view-ticket/{ticketId}',[UserController::class,'viewTicket'])->name('view.ticket');
+    Route::get('/view-ticket/{ticketId}',[UserController::class,'viewTicket'])->name('view.ticket')->middleware('user.ticket');
     Route::post('/user-message-post/{ticketId}',[AdminController::class,'message'])->name('userMessage.post');
 
 });

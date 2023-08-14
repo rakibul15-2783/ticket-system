@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 
-class ticketAccessControl
+class userTicketAccessControl
 {
     /**
      * Handle an incoming request.
@@ -19,9 +19,6 @@ class ticketAccessControl
     {
         $ticketId = $request->route('ticketId');
         $ticket = Ticket::find($ticketId);
-        if($request->user()->id == $ticket->assignto || $ticket->assignto == null) {
-            return $next($request);
-        }
         if($request->user()->email == $ticket->email ) {
             return $next($request);
         }
