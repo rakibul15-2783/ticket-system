@@ -43,3 +43,6 @@ Route::middleware('auth','admin')->group(function(){
 
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
+
+
+
