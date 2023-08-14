@@ -13,6 +13,14 @@
     object-fit: cover;
     border: 1px solid #ccc;
 }
+.messages {
+    padding: 10px;
+    color: white;
+    padding: 15px;
+    height: 760px;
+    overflow: scroll;
+    border: 1px solid #ccc;
+}
 </style>
 <div class="row align-items-end">
     <div class="col-lg-9">
@@ -70,7 +78,7 @@
                             <textarea type="text" name="message" class="form-control" placeholder="Reply here..."></textarea>
                         </div><br>
                         <div class="input-group col-lg-6 mb-0">
-                            <input class="form-control "  name="images[]" id="images" type="file" multiple />
+                            <input class="form-control mr-3"  name="images[]" id="images" type="file" multiple />
                             <button class="btn btn-info text-center"><i class="fa-regular fa-paper-plane"></i></button>
                         </div>
                     </div>
@@ -92,7 +100,8 @@
                         </div>
                     </div>
                 </div>
-            </div><br><br>
+            </div><br>
+            <div class="messages">
             @foreach ($messages->sortByDesc('created_at') as $message)
             <div class="card  border-primary">
                 <div class="card-header bg-light p-2">
@@ -104,13 +113,12 @@
                 <div class="image-container p-0">
                     @if ($message->images->count() > 0)
                         @foreach ($message->images as $image)
-                            <div class="thumbnail preview-link" data-toggle="modal" data-target="#imageModal" data-image="{{ asset('upload/images/'.$image->images) }}">
-                                <img src="{{ asset('upload/images/'.$image->images) }}" alt="Uploaded Image">
-                            </div>
+                        <div class="thumbnail">
+                            <img src="{{ asset('upload/images/'.$image->images) }}" alt="Uploaded Image">
+                        </div>
                         @endforeach
                     @endif
                 </div>
-
             </div>
             @endforeach
             <div class="card border-primary ">
@@ -123,6 +131,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
    </div>
 </div>

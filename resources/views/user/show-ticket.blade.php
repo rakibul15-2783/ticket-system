@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-md-2">
                         @if ($ticket->latestMessage)
-                            {{ $ticket->latestMessage->created_at->format('F j, Y, g:i A') }}
+                            {{ $ticket->latestMessage->created_at->format('d-m-Y (h:i A)') }}
                         @else
                             No updates yet
                         @endif
