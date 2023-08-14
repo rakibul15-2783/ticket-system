@@ -15,6 +15,9 @@ class UserController extends Controller
    public function index(){
     return view('user.dashboard');
    }
+   public function welcome(){
+    return view('welcome');
+   }
    public function ticket(){
     $user = auth()->user()->id;
     $ticket = Ticket::where('user_id', $user)->get();

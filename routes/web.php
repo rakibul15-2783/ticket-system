@@ -17,10 +17,10 @@ use App\Http\Controllers\AuthController;
 Route::middleware('guest')->group(function(){
     Route::get('/login',[AuthController::class,'login'])->name('login');
     Route::post('/login-post',[AuthController::class,'loginpost'])->name('login.post');
+    Route::get('/',[UserController::class,'welcome'])->name('welcome');
 });
 //for user
 Route::middleware('auth','user')->group(function(){
-    Route::get('/logout',[AuthController::class,'logout'])->name('logout');
     Route::get('/user-dashboard',[UserController::class,'index'])->name('user.dashboard');
     Route::get('/create-ticket',[UserController::class,'ticket'])->name('ticket');
     Route::get('/show-ticket',[UserController::class,'showTicket'])->name('show.ticket');
@@ -40,11 +40,10 @@ Route::middleware('auth','admin')->group(function(){
 });
 
 
+Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 

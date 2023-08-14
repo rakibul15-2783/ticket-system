@@ -19,7 +19,7 @@ class AdminController extends Controller
     //show all ticket
     public function showTickets()
     {
-        $tickets = Ticket::all();
+        $tickets = Ticket::orderByDesc('created_at')->paginate(10);
         return view('admin.show-tickets', compact('tickets'));
     }
     //open a ticket
@@ -61,6 +61,10 @@ class AdminController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
+        if (empty($request->message) && !$request->hasFile('images')) {
+            return back();
+        }
+
         $message = new Message();
         $message->message = $request->message;
         $message->user_id = auth()->user()->id;
@@ -89,7 +93,8 @@ class AdminController extends Controller
         $tickets = Ticket::join('users', 'tickets.assignto', '=', 'users.id')
                     ->where('users.email', 'LIKE', '%' . $search . '%')
                     ->select('tickets.*')
-                    ->get();
+                    ->orderByDesc('created_at')
+                    ->paginate(10);
 
     return view('admin.search-tickets', compact('tickets'));
     }
