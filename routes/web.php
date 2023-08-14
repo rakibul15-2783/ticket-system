@@ -41,6 +41,12 @@ Route::middleware('auth','admin')->group(function(){
 
 
 
+View::composer('admin.includes.sidebar', function($view){
+     
+      $tickets = App\Models\Ticket::orderBy('id','desc')->get();
+      $view->with('tickets',$tickets);
+});
+
 
 
 Route::get('/', function () {
