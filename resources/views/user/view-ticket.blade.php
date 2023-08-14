@@ -57,7 +57,7 @@
                             <button class="btn btn-info text-center"><i class="fa-regular fa-paper-plane"></i></button>
                         </div>
                     </div>
-                </form>
+                </form> 
                 <div class="row file-type">
                     <div class="input-group col-lg-6 mb-0">
                     </div><br>
