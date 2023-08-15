@@ -74,6 +74,7 @@
             </div>
         </div>
         <div class="col-md-12 col-lg-8">
+            @if($ticket->status !=3)
             <div class="chat-message " >
                 <form action="{{ route('message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -109,6 +110,7 @@
                     </div>
                 </div>
             </div><br>
+            @endif
             <div class="messages card">
             @foreach ($messages->sortByDesc('created_at') as $message)
             <div class="card rounded border">
