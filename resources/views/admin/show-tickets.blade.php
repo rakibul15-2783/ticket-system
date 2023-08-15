@@ -27,10 +27,10 @@
         <ul class="list-group">
             <li class="list-group-item list-group-item">
                 <div class="row">
-                    <div class="col-md-2"><b>SL</b></div>
+                    <div class="col-md-1"><b>SL</b></div>
                     <div class="col-md-2"><b>Department</b></div>
                     <div class="col-md-2"><b>Subject</b></div>
-                    <div class="col-md-2"><b>Assign to</b></div>
+                    <div class="col-md-3"><b>Assign to</b></div>
                     <div class="col-md-2"><b>Status</b></div>
                     <div class="col-md-2"><b>Last Update</b></div>
                 </div>
@@ -47,7 +47,7 @@
                         <div class="col-md-1">{{ $serialNumber }}</div>
                         <div class="col-md-2">{{ $ticket->category }}</div>
                         <div class="col-md-2">{{ $ticket->subject }}</div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             @if ($ticket->assignee)
                                {{ $ticket->assignee->email }}
                             @else
