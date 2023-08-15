@@ -77,6 +77,19 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
+                                <label for="priority" class="col-sm-3 col-form-label">Priority</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="priority" id="">
+                                        <option value="1">Medium</option>
+                                        <option value="2">High</option>
+                                        <option value="0">Low</option>
+                                    </select>
+                                    @error('priority')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
                                 <label for="des" class="col-sm-3 col-form-label">Description</label>
                                 <div class="col-sm-9">
                                     <textarea name="des" required class="form-control" id="des" placeholder="Describe Your Problem" >{{ old('des') }}</textarea>

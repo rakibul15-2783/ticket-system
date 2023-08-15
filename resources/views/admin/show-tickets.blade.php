@@ -41,13 +41,22 @@
                     $serialNumber = ($tickets->currentPage() - 1) * $tickets->perPage() + $sl + 1;
                 @endphp
                 <a @if($ticket->assignto === auth()->user()->id || $ticket->assignto == "")
-                      href="{{ route('open.ticket', ['ticketId' => $ticket->id]) }}" 
-                    @endif 
+                      href="{{ route('open.ticket', ['ticketId' => $ticket->id]) }}"
+                    @endif
                     class="list-group-item list-group-item">
                     <div class="row">
                         <div class="col-md-1">{{ $serialNumber }}</div>
                         <div class="col-md-2">{{ $ticket->category }}</div>
-                        <div class="col-md-2">{{ $ticket->subject }}</div>
+                        <div class="col-md-2">
+                            #000{{ $ticket->id }}<br>{{ $ticket->subject }}
+                            @if ($ticket->priority == 0)
+                            <span class="badge badge-info"></span>
+                            @elseif ($ticket->priority == 1 )
+                            <span class="badge  badge-success"></span>
+                            @elseif ($ticket->priority == 2 )
+                            <span class="badge badge-danger"></span>
+                            @endif
+                        </div>
                         <div class="col-md-3">
                             @if ($ticket->assignee)
                                {{ $ticket->assignee->email }}

@@ -25,7 +25,7 @@
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">
-            <p>/ My Tickets / ticket_id #{{$ticket->id}}</p>
+            <p>/ My Tickets / ticket_id #000{{$ticket->id}}</p>
         </div>
     </div>
 </div><br>
@@ -36,10 +36,33 @@
         <div class="card bg-white" style="width: 18rem;">
             <ul class="list-group list-group-flush">
               <li class="list-group-item"><p><b>Name: </b></p> {{ $ticket->name }}</li>
-              <li class="list-group-item"><p><b>Email:</b> </p>{{ $ticket->email }}</li>
-              <li class="list-group-item"><p><b>Subject:</b></p> {{ $ticket->subject }}</li>
-              <li class="list-group-item"><p><b>Category:</b></p> {{ $ticket->category }}</li>
-              <li class="list-group-item"><p><b>Description:</b> </p>{{ $ticket->des }}</li>
+              <li class="list-group-item"><p><b>Department:</b> </p>{{ $ticket->category }}</li>
+              <li class="list-group-item"><p><b>Submited:</b></p> {{ $ticket->created_at->format('F j, Y ( g:i A )') }}</li>
+              <li class="list-group-item"><p><b>Last Update:</b></p>
+                    @if ($ticket->latestMessage)
+                    {{ $ticket->latestMessage->created_at->format('d-m-Y (h:i A)') }}
+                    @else
+                        No updates yet
+                    @endif
+              </li>
+              <li class="list-group-item"><p><b>Status/Priority:</b> </p>
+                    @if ($ticket->status == 0)
+                       <span class="badge badge-danger">NOT OPEN</span>
+                    @elseif ($ticket->status == 1 )
+                       <span class="badge badge-warning">ASSIGNED</span>
+                    @elseif ($ticket->status == 2 )
+                       <span class="badge badge-info">PROCESSING</span>
+                    @elseif ($ticket->status == 3)
+                       <span class="badge badge-success">CLOSED</span>
+                    @endif
+                    @if ($ticket->priority == 0)
+                       <span >/ Low</span>
+                    @elseif ($ticket->status == 1 )
+                       <span >/ Medium</span>
+                    @elseif ($ticket->status == 2 )
+                       <span >/ High</span>
+                    @endif
+              </li>
             </ul>
         </div>
     </div>
@@ -89,9 +112,14 @@
             @endif
             <div class="messages card">
             @foreach ($messages->sortByDesc('created_at') as $message)
-            <div class="card  border-primary">
-                <div class="card-header bg-light p-2">
-                 <strong>{{ $message->user->name }}</strong><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+            <div class="card  rounded border">
+                <div class="card-header bg-light p-2 {{ $message->user->role==1 ? 'border-primary':'border-success'}}">
+                    @if ($message->user->role==1)
+                    <small class="text-success"><b>{{ $message->user->name }}</b></small><br><small class="text-success">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+                    @else
+                    <small class="text-dark"><b>{{ $message->user->name }}</b></small><br><small class="text-dark">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+                    @endif
+
                 </div>
                 <div class="card-body">
                         <p>{{ $message->message }}</p>
@@ -107,12 +135,14 @@
                 </div>
             </div>
             @endforeach
-            <div class="card border-primary">
+            <div class="card border-success">
                 <div class="card-header bg-light p-2">
-                 <strong>{{ $ticket->name }}</strong><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
+                    <small class="text-dark"><b>{{ $ticket->name }}</b></small></small><br><small class="text-dark">{{ $ticket->email }}</small><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
                 </div>
                 <div class="card-body">
-                        <p>{{ $ticket->des }}</p>
+                    <div class="mb-0">
+                        <p class='text-color'>{{ $ticket->des }}</p>
+                    </div>
                 </div>
             </div>
         </div>

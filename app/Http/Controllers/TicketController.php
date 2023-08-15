@@ -32,6 +32,7 @@ class TicketController extends Controller
         $ticket->email = $request->email;
         $ticket->subject = $request->subject;
         $ticket->category = $request->category;
+        $ticket->priority = $request->priority;
         $ticket->des = $request->des;
         $ticket->save();
 

@@ -41,8 +41,8 @@
                 <div class="row">
                     <div class="col-md-1">{{ $serialNumber }}</div>
                     <div class="col-md-2">{{ $ticket->category }}</div>
-                    <div class="col-md-2">#{{ $ticket->id }}<br>{{ $ticket->subject }}</div>
-                    <div class="col-md-3"> 
+                    <div class="col-md-2">#000{{ $ticket->id }}<br>{{ $ticket->subject }}</div>
+                    <div class="col-md-3">
                         @if ($ticket->assignee)
                             {{ $ticket->assignee->email }}
                         @else
@@ -55,16 +55,16 @@
                         @elseif ($ticket->status == 1 )
                         <span class="badge badge-success">Assigned</span>
                         @elseif ($ticket->status == 2 )
-                        <span class="badge badge-info">Processing</span>
+                        <span class="badge badge-info">Processing</span>s
                         @elseif ($ticket->status == 3)
                         <span class="badge badge-warning">Closed</span>
                         @endif
                     </div>
                     <div class="col-md-2">
                         @if ($ticket->latestMessage)
-                            {{ $ticket->latestMessage->created_at->format('d-m-Y (h:i A)') }}
+                            <span class="badge badge-success">{{ $ticket->latestMessage->created_at->format('d-m-Y (h:i A)') }}</span>
                         @else
-                            No updates yet
+                             <span class="badge badge-secondary">No updated yet</span>
                         @endif
                     </div>
                 </div>
