@@ -19,7 +19,8 @@ class AdminController extends Controller
     //show all ticket
     public function showTickets()
     {
-        $tickets = Ticket::orderByDesc('created_at')->paginate(10);
+        $tickets = Ticket::orderBy('id','desc')->paginate(10);
+
         return view('admin.show-tickets', compact('tickets'));
     }
     //open a ticket
@@ -33,7 +34,8 @@ class AdminController extends Controller
                 $ticket->assignto = auth()->user()->id;
                 $ticket->status = 1;
                 $ticket->save();
-        }
+            }
+
         return view('admin.open-ticket', compact('ticket', 'messages', 'users','images'));
     }
     //status and assigned to change

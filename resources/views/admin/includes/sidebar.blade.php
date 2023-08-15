@@ -8,14 +8,14 @@
                     <span class="pcoded-mtext">Dashboard</span>
                 </a>
             </li>
-            <!-- <li class="{{ request()->is('show-tickets*') ? 'active':''}}">
+            <li class="{{ request()->is('show-tickets*') ? 'active':''}}">
                 <a href="{{ route('show.tickets') }}">
                     <span class="pcoded-micon"><i class="fa-regular fa-paper-plane"></i></span>
                     <span class="pcoded-mtext">Tickets</span>
                 </a>
-            </li> -->
+            </li>
 
-            @foreach($tickets as $ticket)
+            <!-- @foreach($tickets as $ticket)
             <li class="" id="listofTicket">
                 <a href="{{ route('open.ticket', ['ticketId' => $ticket->id]) }}">
                     <span class="pcoded-micon"><i class="fa-regular fa-paper-plane"></i></span>
@@ -24,7 +24,7 @@
                     </span>
                 </a>
             </li>
-            @endforeach
+            @endforeach -->
         </ul>
     </div>
 </nav>

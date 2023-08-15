@@ -7,6 +7,10 @@
     gap: 10px;
 }
 
+.text-color{
+    color: #000;
+}
+
 .thumbnail img {
     width: 100px;
     height: 100px;
@@ -15,7 +19,7 @@
 }
 .messages {
     padding: 10px;
-    color: white;
+    color: #000;
     padding: 15px;
     height: 760px;
     overflow: scroll;
@@ -107,11 +111,11 @@
             <div class="messages card">
             @foreach ($messages->sortByDesc('created_at') as $message)
             <div class="card rounded border">
-                <div class="card-header border-primary bg-light p-2">
+                <div class="card-header bg-light p-2 {{ $message->user->role==1 ? 'border-primary':'border-success'}}">
                     @if ($message->user->role==1)
-                    <small class="text-success"><b>Sent From Admin</b></small><br><small class="text-success">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+                    <small class="text-success"><b>{{ $message->user->name }}</b></small><br><small class="text-success">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
                     @else
-                    <small class="text-dark"><b>Sent From Customer</b></small><br><small class="text-dark">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+                    <small class="text-dark"><b>{{ $message->user->name }}</b></small><br><small class="text-dark">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
                     @endif
 
                 </div>
@@ -129,13 +133,13 @@
                 </div>
             </div>
             @endforeach
-            <div class="card border-primary ">
+            <div class="card border-success ">
                 <div class="card-header bg-light p-2">
                  <strong>{{ $ticket->name }}</strong><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-0">
-                        <p>{{ $ticket->des }}</p>
+                        <p class='text-color'>{{ $ticket->des }}</p>
                     </div>
                 </div>
             </div>
