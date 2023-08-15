@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\MessageRequest;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Ticket;
@@ -57,35 +56,7 @@ class AdminController extends Controller
             return redirect('show-tickets');
         }
     }
-    //messege from admin and user
-    public function message(MessageRequest $request, $ticketId)
-    {
 
-        // if (empty($request->message) && !$request->hasFile('images')) {
-        //     return back()->with('error','Message was empty!');
-        // }
-
-        $message = new Message();
-        $message->message = $request->message;
-        $message->user_id = auth()->user()->id;
-        $message->ticket_id = $ticketId;
-        $message->save();
-
-        if($request->hasFile('images')){
-            $files = $request->file('images');
-            foreach($files as $file){
-                $fileName = rand().'.'.$file->getClientOriginalExtension();
-                $file->move('upload/images/',$fileName);
-                $images = new Images();
-                $images->user_id = auth()->user()->id;
-                $images->ticket_id = $ticketId;
-                $images->message_id = $message->id;
-                $images->images = $fileName;
-                $images->save();
-            }
-        }
-        return back();
-    }
 
     //searching
     public function search(Request $request){

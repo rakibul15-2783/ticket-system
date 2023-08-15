@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\View;
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +25,11 @@ Route::middleware('guest')->group(function(){
 //for user
 Route::middleware('auth','user')->group(function(){
     Route::get('/user-dashboard',[UserController::class,'index'])->name('user.dashboard');
-    Route::get('/create-ticket',[UserController::class,'ticket'])->name('ticket');
-    Route::get('/show-ticket',[UserController::class,'showTicket'])->name('show.ticket');
-    Route::post('/store-ticket',[UserController::class,'storeTicket'])->name('store.ticket');
-    Route::get('/view-ticket/{ticketId}',[UserController::class,'viewTicket'])->name('view.ticket')->middleware('user.ticket');
-    Route::post('/user-message-post/{ticketId}',[AdminController::class,'message'])->name('userMessage.post');
+    Route::get('/create-ticket',[TicketController::class,'ticket'])->name('ticket');
+    Route::get('/show-ticket',[TicketController::class,'showTicket'])->name('show.ticket');
+    Route::post('/store-ticket',[TicketController::class,'storeTicket'])->name('store.ticket');
+    Route::get('/view-ticket/{ticketId}',[TicketController::class,'viewTicket'])->name('view.ticket')->middleware('user.ticket');
+    Route::post('/user-message-post/{ticketId}',[MessageController::class,'message'])->name('userMessage.post');
 
 });
 //for admin
