@@ -42,7 +42,7 @@
                     <div class="col-md-1">{{ $serialNumber }}</div>
                     <div class="col-md-2">{{ $ticket->category }}</div>
                     <div class="col-md-2">#{{ $ticket->id }}<br>{{ $ticket->subject }}</div>
-                    <div class="col-md-3">
+                    <div class="col-md-3"> 
                         @if ($ticket->assignee)
                             {{ $ticket->assignee->email }}
                         @else

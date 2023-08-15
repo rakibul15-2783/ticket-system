@@ -36,13 +36,15 @@
                 </div>
             </li>
             @if(!$tickets->isEmpty())
-                @php $x=0; @endphp
-                @foreach ($tickets as $ticket)
+                @foreach ($tickets as $sl => $ticket)
+                @php
+                    $serialNumber = ($tickets->currentPage() - 1) * $tickets->perPage() + $sl + 1;
+                @endphp
                 <a @if($ticket->assignto === auth()->user()->id || $ticket->assignto == "")
                     href="{{ route('open.ticket', ['ticketId' => $ticket->id]) }}" @endif class="list-group-item
                     list-group-item">
                     <div class="row">
-                        <div class="col-md-1">{{ ++$x }}</div>
+                        <div class="col-md-1">{{ $serialNumber }}</div>
                         <div class="col-md-2">{{ $ticket->category }}</div>
                         <div class="col-md-2">{{ $ticket->subject }}</div>
                         <div class="col-md-2">

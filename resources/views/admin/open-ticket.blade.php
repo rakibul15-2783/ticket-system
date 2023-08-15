@@ -136,7 +136,7 @@
             @endforeach
             <div class="card border-success ">
                 <div class="card-header bg-light p-2">
-                 <strong>{{ $ticket->name }}</strong><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
+                 <small class="text-dark"><b>{{ $ticket->name }}</b></small></small><br><small class="text-dark">{{ $ticket->email }}</small><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-0">
