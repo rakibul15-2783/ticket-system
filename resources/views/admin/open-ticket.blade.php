@@ -112,7 +112,7 @@
             </div><br>
             @endif
             <div class="messages card">
-            @foreach ($messages->sortByDesc('created_at') as $message)
+            @foreach ($messages as $message)
             <div class="card rounded border">
                 <div class="card-header bg-light p-2 {{ $message->user->role==1 ? 'border-primary':'border-success'}}">
                     @if ($message->user->role==1)

@@ -41,8 +41,9 @@
                     $serialNumber = ($tickets->currentPage() - 1) * $tickets->perPage() + $sl + 1;
                 @endphp
                 <a @if($ticket->assignto === auth()->user()->id || $ticket->assignto == "")
-                    href="{{ route('open.ticket', ['ticketId' => $ticket->id]) }}" @endif class="list-group-item
-                    list-group-item">
+                      href="{{ route('open.ticket', ['ticketId' => $ticket->id]) }}" 
+                    @endif 
+                    class="list-group-item list-group-item">
                     <div class="row">
                         <div class="col-md-1">{{ $serialNumber }}</div>
                         <div class="col-md-2">{{ $ticket->category }}</div>

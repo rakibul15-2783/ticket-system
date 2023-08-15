@@ -16,28 +16,7 @@ class AdminController extends Controller
     {
         return view('admin.dashboard');
     }
-    //show all ticket
-    public function showTickets()
-    {
-        $tickets = Ticket::orderBy('id','desc')->paginate(10);
-
-        return view('admin.show-tickets', compact('tickets'));
-    }
-    //open a ticket
-    public function openTicket($ticketId)
-    {
-        $users = User::where('role', 1)->get();
-        $ticket = Ticket::find($ticketId);
-        $messages = Message::where('ticket_id', $ticketId)->get();
-        $images = Images::where('ticket_id', $ticketId)->get();
-            if($ticket->flag == false){
-                $ticket->assignto = auth()->user()->id;
-                $ticket->status = 1;
-                $ticket->save();
-            }
-
-        return view('admin.open-ticket', compact('ticket', 'messages', 'users','images'));
-    }
+    
     //status and assigned to change
     public function status(Request $rqst, Ticket $ticket)
     {
