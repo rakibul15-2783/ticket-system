@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Requests\MessageRequest;
 use App\Models\Message;
@@ -22,6 +22,8 @@ class MessageController extends Controller
              $files = $request->file('images');
              foreach($files as $file){
                  $fileName = rand().'.'.$file->getClientOriginalExtension();
+                 $filePath = 'upload/images/' . $fileName;
+                 Storage::disk('public')->put($filePath, file_get_contents($file));
                  $file->move('upload/images/',$fileName);
                  $images = new Images();
                  $images->user_id = auth()->user()->id;
