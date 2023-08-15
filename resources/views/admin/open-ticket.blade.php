@@ -29,7 +29,7 @@
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">
-            <p>/ Tickets / ticket_id #{{$ticket->id}}</p>
+            <p>/ Tickets / ticket_id #000{{$ticket->id}}</p>
         </div>
     </div>
 </div><br>
@@ -39,7 +39,7 @@
             <h5>Tickets</h5><br>
             <div class="card bg-white" style="width: 18rem;">
                 <ul class="list-group list-group-flush" id="listofTicket">
-                  @foreach($ticketList as $singleTicket)  
+                  @foreach($ticketList as $singleTicket)
                   <a href="" class="list-group-item">
                     <li>
                          #000{{ $singleTicket->id }} - {{ $singleTicket->subject }}
@@ -47,7 +47,7 @@
                   </a>
                   @endforeach
                 </ul>
-               
+
             </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6">
@@ -138,7 +138,24 @@
                   <li class="list-group-item"><p><b>Email:</b> </p>{{ $ticket->email }}</li>
                   <li class="list-group-item"><p><b>Subject:</b></p> {{ $ticket->subject }}</li>
                   <li class="list-group-item"><p><b>Category:</b></p> {{ $ticket->category }}</li>
-                  <li class="list-group-item"><p><b>Description:</b> </p>{{ $ticket->des }}</li>
+                  <li class="list-group-item"><p><b>Status/Priority:</b> </p>
+                        @if ($ticket->status == 0)
+                        <span class="badge badge-danger">NOT OPEN</span>
+                        @elseif ($ticket->status == 1 )
+                        <span class="badge badge-warning">ASSIGNED</span>
+                        @elseif ($ticket->status == 2 )
+                        <span class="badge badge-info">PROCESSING</span>
+                        @elseif ($ticket->status == 3)
+                        <span class="badge badge-success">CLOSED</span>
+                        @endif
+                        @if ($ticket->priority == 0)
+                        <span >/ Low</span>
+                        @elseif ($ticket->status == 1 )
+                        <span >/ Medium</span>
+                        @elseif ($ticket->status == 2 )
+                        <span >/ High</span>
+                        @endif
+                 </li>
                 </ul>
             </div>
             <div class="card bg-white" style="width: 18rem;">
