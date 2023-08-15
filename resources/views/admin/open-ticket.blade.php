@@ -80,6 +80,9 @@
                     <div class="row">
                         <div class="input-group col-lg-6 mb-0">
                             <textarea type="text" name="message" class="form-control" placeholder="Reply here..."></textarea>
+                            @error('message')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div><br>
                         <div class="input-group col-lg-6 mb-0">
                             <input class="form-control mr-3"  name="images[]" id="images" type="file" multiple />
@@ -89,9 +92,7 @@
                 </form>
                 <div class="row file-type">
                     <div class="input-group col-lg-6 mb-0 ">
-                    @if (session('error'))
-                       <span class="text-danger">{{ session('error') }}</span>
-                    @endif
+
                    </div><br>
                     <div class="input-group col-lg-6 mb-0">
                         <div id="">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\MessageRequest;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Ticket;
@@ -57,15 +58,12 @@ class AdminController extends Controller
         }
     }
     //messege from admin and user
-    public function message(Request $request, $ticketId)
+    public function message(MessageRequest $request, $ticketId)
     {
-        $request->validate([
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif',
-        ]);
 
-        if (empty($request->message) && !$request->hasFile('images')) {
-            return back()->with('error','Message was empty!');
-        }
+        // if (empty($request->message) && !$request->hasFile('images')) {
+        //     return back()->with('error','Message was empty!');
+        // }
 
         $message = new Message();
         $message->message = $request->message;

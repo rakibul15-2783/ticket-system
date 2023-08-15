@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateTicketRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\User;
@@ -28,25 +29,17 @@ class UserController extends Controller
     $tickets = Ticket::where('user_id', $user)->orderByDesc('created_at')->paginate(10);
     return view('user.show-ticket',compact('tickets'));
    }
-   public function storeTicket(Request $request)
+   public function storeTicket(CreateTicketRequest $request)
    {
     $user_id = auth()->user()->id;
 
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'subject' => 'required|string|max:255',
-        'category' => 'required|string|max:255',
-        'des' => 'required|string',
-    ]);
-
     $ticket = new Ticket();
     $ticket->user_id = $user_id;
-    $ticket->name = $validatedData['name'];
-    $ticket->email = $validatedData['email'];
-    $ticket->subject = $validatedData['subject'];
-    $ticket->category = $validatedData['category'];
-    $ticket->des = $validatedData['des'];
+    $ticket->name = $request->name;
+    $ticket->email = $request->email;
+    $ticket->subject = $request->subject;
+    $ticket->category = $request->category;
+    $ticket->des = $request->des;
     $ticket->save();
 
     return redirect('show-ticket')->with('success', 'Ticket Created Successfully');

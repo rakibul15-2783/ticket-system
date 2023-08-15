@@ -24,7 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         $tickets= DB::table('tickets')->get();
         View::share('tickets',$tickets);
     }
