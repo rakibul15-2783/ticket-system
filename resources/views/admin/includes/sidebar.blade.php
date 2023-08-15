@@ -14,21 +14,10 @@
                     <span class="pcoded-mtext">Tickets</span>
                 </a>
             </li>
-
-            <!-- @foreach($tickets as $ticket)
-            <li class="" id="listofTicket">
-                <a href="{{ route('open.ticket', ['ticketId' => $ticket->id]) }}">
-                    <span class="pcoded-micon"><i class="fa-regular fa-paper-plane"></i></span>
-                    <span class="pcoded-mtext">
-                        #000{{ $ticket->id }} - {{ $ticket->subject }}
-                    </span>
-                </a>
-            </li>
-            @endforeach -->
         </ul>
     </div>
 </nav>
-
+<!-- 
 <script>
 setInterval(function() {
 
@@ -63,4 +52,4 @@ setInterval(function() {
     });
 
 }, 10000);
-</script>
+</script> -->

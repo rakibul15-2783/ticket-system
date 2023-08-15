@@ -90,6 +90,9 @@ class TicketController extends Controller
          return view('admin.search-tickets', compact('tickets'));
     }
 
+    /**
+     * Show upcomming ticket into admin sidebar
+     */
     public function listofTicket()
     {
         $tickets = Ticket::orderBy('id', 'desc')->get();

@@ -35,45 +35,22 @@
 </div><br>
 <div class="page-wrapper p-0">
    <div class="row">
-        <div class="col-md-12 col-lg-3">
-            <h5>Ticket Information</h5><br>
+       <div class="col-sm-12 col-md-3 col-lg-3">
+            <h5>Tickets</h5><br>
             <div class="card bg-white" style="width: 18rem;">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><p><b>Name: </b></p> {{ $ticket->name }}</li>
-                  <li class="list-group-item"><p><b>Email:</b> </p>{{ $ticket->email }}</li>
-                  <li class="list-group-item"><p><b>Subject:</b></p> {{ $ticket->subject }}</li>
-                  <li class="list-group-item"><p><b>Category:</b></p> {{ $ticket->category }}</li>
-                  <li class="list-group-item"><p><b>Description:</b> </p>{{ $ticket->des }}</li>
+                <ul class="list-group list-group-flush" id="listofTicket">
+                  @foreach($ticketList as $singleTicket)  
+                  <a href="" class="list-group-item">
+                    <li>
+                         #000{{ $singleTicket->id }} - {{ $singleTicket->subject }}
+                    </li>
+                  </a>
+                  @endforeach
                 </ul>
-            </div>
-            <div class="card bg-white" style="width: 18rem;">
-                <div class="text-center">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><p><b>Assign to </b></p>
-
-                            <form action="{{ route('status.post', ['ticket' => $ticket]) }}" method="POST">
-                                @csrf
-                                <select name="assignto" class="text-center form-control" id="assignto">
-                                    @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" {{ $ticket->assignto === $user->id ? "selected" : ""}}>{{$user->email}}</option>
-                                    @endforeach
-                                </select><br>
-                                <select name="status" class="form-control text-center" id="status">
-                                    <option value="0" @if ($ticket->status === 0) selected @endif>Unassigned</option>
-                                    <option value="1" @if ($ticket->status === 1) selected @endif>Assigned</option>
-                                    <option value="2" @if ($ticket->status === 2) selected @endif>Processing</option>
-                                    <option value="3" @if ($ticket->status === 3) selected @endif>Closed</option>
-                                </select>
-                                <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-sm btn-info">Save</button>
-                                </div>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+               
             </div>
         </div>
-        <div class="col-md-12 col-lg-8">
+        <div class="col-sm-12 col-md-6 col-lg-6">
             @if($ticket->status !=3)
             <div class="chat-message " >
                 <form action="{{ route('message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
@@ -153,6 +130,44 @@
             @endif
         </div>
         </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <h5>Ticket Information</h5><br>
+            <div class="card bg-white" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><p><b>Name: </b></p> {{ $ticket->name }}</li>
+                  <li class="list-group-item"><p><b>Email:</b> </p>{{ $ticket->email }}</li>
+                  <li class="list-group-item"><p><b>Subject:</b></p> {{ $ticket->subject }}</li>
+                  <li class="list-group-item"><p><b>Category:</b></p> {{ $ticket->category }}</li>
+                  <li class="list-group-item"><p><b>Description:</b> </p>{{ $ticket->des }}</li>
+                </ul>
+            </div>
+            <div class="card bg-white" style="width: 18rem;">
+                <div class="text-center">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><p><b>Assign to </b></p>
+
+                            <form action="{{ route('status.post', ['ticket' => $ticket]) }}" method="POST">
+                                @csrf
+                                <select name="assignto" class="text-center form-control" id="assignto">
+                                    @foreach ($users as $user)
+                                            <option value="{{ $user->id }}" {{ $ticket->assignto === $user->id ? "selected" : ""}}>{{$user->email}}</option>
+                                    @endforeach
+                                </select><br>
+                                <select name="status" class="form-control text-center" id="status">
+                                    <option value="0" @if ($ticket->status === 0) selected @endif>Unassigned</option>
+                                    <option value="1" @if ($ticket->status === 1) selected @endif>Assigned</option>
+                                    <option value="2" @if ($ticket->status === 2) selected @endif>Processing</option>
+                                    <option value="3" @if ($ticket->status === 3) selected @endif>Closed</option>
+                                </select>
+                                <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-sm btn-info">Save</button>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
@@ -170,5 +185,38 @@
     });
 </script>
 
+<script>
+setInterval(function() {
 
+    let listofTicket = document.getElementById('listofTicket');
+
+    $.ajax({
+
+        type: 'GET',
+        method: 'GET',
+        url: "{{ route('api.listofTicket') }}",
+        success: function(response) {
+
+            let listItem = '';
+            response.forEach(function(item) {
+
+                let ticketId = item.id;
+                let openTicket = "{{ route('open.ticket', ':ticketId') }}";
+                openTicket = openTicket.replace(':ticketId', ticketId);
+
+                listItem += ` <a href="${openTicket}" class="list-group-item">
+                                <li>
+                                    #000${item.id} - ${item.subject}
+                                </li>
+                            </a>`
+            });
+            listofTicket.innerHTML = listItem;
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+
+}, 10000);
+</script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use DB;
+use App\Models\Ticket;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $tickets= DB::table('tickets')->get();
-        View::share('tickets',$tickets);
+        $ticketList = Ticket::orderBy('id','desc')->get();
+        View::share('ticketList',$ticketList);
     }
 }
