@@ -35,7 +35,7 @@ class TicketController extends Controller
     {
         $users    = User::where('role', 1)->get();
         $ticket   = Ticket::find($ticketId);
-        $messages = Message::where('ticket_id', $ticketId)->get();
+        $messages = Message::orderBy('created_at','desc')->where('ticket_id', $ticketId)->get();
         $images   = Images::where('ticket_id', $ticketId)->get();
         
         if($ticket->flag == false){
@@ -45,6 +45,49 @@ class TicketController extends Controller
         }
 
         return view('admin.open-ticket', compact('ticket', 'messages', 'users','images'));
+    }
+
+     /**
+      * Change status of ticket and assign to Admin
+      *
+      * @param Illuminate\Http\Request $rqst
+      * @param Object of Ticket Model
+      *
+      * @return RedirectResponse
+      *
+      */
+     public function status(Request $rqst, Ticket $ticket)
+     {
+         if($rqst->status == 0){
+             $ticket->assignto = null;
+             $ticket->status = $rqst->status;
+             $ticket->flag = false;
+             $ticket->update();
+             return redirect('show-tickets');
+         }
+         else{
+             $ticket->assignto = $rqst->assignto;
+             $ticket->status = $rqst->status;
+             $ticket->flag = true;
+             $ticket->update();
+             return redirect('show-tickets');
+         }
+     }
+
+    /**
+     * Search ticket by email
+     * 
+     * @param @param Illuminate\Http\Request $request
+     */
+    public function search(Request $request){
+        $search = $request->input('search');
+        $tickets = Ticket::join('users', 'tickets.assignto', '=', 'users.id')
+                    ->where('users.email', 'LIKE', '%' . $search . '%')
+                    ->select('tickets.*')
+                    ->orderByDesc('created_at')
+                    ->paginate(10);
+
+         return view('admin.search-tickets', compact('tickets'));
     }
 
     public function listofTicket()

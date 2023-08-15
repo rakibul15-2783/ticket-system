@@ -112,40 +112,45 @@
             </div><br>
             @endif
             <div class="messages card">
-            @foreach ($messages as $message)
-            <div class="card rounded border">
-                <div class="card-header bg-light p-2 {{ $message->user->role==1 ? 'border-primary':'border-success'}}">
-                    @if ($message->user->role==1)
-                    <small class="text-success"><b>{{ $message->user->name }}</b></small><br><small class="text-success">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
-                    @else
-                    <small class="text-dark"><b>{{ $message->user->name }}</b></small><br><small class="text-dark">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
-                    @endif
+            @if(!$messages->isEmpty())
+                @foreach ($messages as $message)
+                <div class="card rounded border">
+                    <div class="card-header bg-light p-2 {{ $message->user->role==1 ? 'border-primary':'border-success'}}">
+                        @if ($message->user->role==1)
+                        <small class="text-success"><b>{{ $message->user->name }}</b></small><br><small class="text-success">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+                        @else
+                        <small class="text-dark"><b>{{ $message->user->name }}</b></small><br><small class="text-dark">{{ $message->user->email }}</small><span class="text-right">{{ $message->created_at->format('F j, Y, g:i A') }}</span>
+                        @endif
 
-                </div>
-                <div class="card-body">
-                        <p>{{ $message->message }}</p>
-                </div>
-                <div class="image-container ml-4 ">
-                    @if ($message->images->count() > 0)
-                        @foreach ($message->images as $image)
-                        <div class="thumbnail ">
-                            <img src="{{ asset('upload/images/'.$image->images) }}"  alt="Uploaded Image">
-                        </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-            @endforeach
-            <div class="card border-success ">
-                <div class="card-header bg-light p-2">
-                 <small class="text-dark"><b>{{ $ticket->name }}</b></small></small><br><small class="text-dark">{{ $ticket->email }}</small><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
-                </div>
-                <div class="card-body">
-                    <div class="mb-0">
-                        <p class='text-color'>{{ $ticket->des }}</p>
+                    </div>
+                    <div class="card-body">
+                            <p>{{ $message->message }}</p>
+                    </div>
+                    <div class="image-container ml-4 ">
+                        @if ($message->images->count() > 0)
+                            @foreach ($message->images as $image)
+                            <div class="thumbnail ">
+                                <img src="{{ asset('upload/images/'.$image->images) }}"  alt="Uploaded Image">
+                            </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
-            </div>
+                @endforeach
+            @endif
+
+            @if(!is_null($ticket))
+                <div class="card border-success ">
+                    <div class="card-header bg-light p-2">
+                    <small class="text-dark"><b>{{ $ticket->name }}</b></small></small><br><small class="text-dark">{{ $ticket->email }}</small><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-0">
+                            <p class='text-color'>{{ $ticket->des }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
         </div>
    </div>

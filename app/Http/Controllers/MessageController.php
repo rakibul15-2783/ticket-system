@@ -9,7 +9,14 @@ use App\Models\Images;
 
 class MessageController extends Controller
 {
-     //messege from admin and user
+     /**
+      * Ticket message between user and admin
+      * 
+      * @param Illuminate\Http\Request\MessageRequest $request
+      * @param int $ticketId
+      *
+      * @return RedirectResponse
+      */
      public function message(MessageRequest $request, $ticketId)
      {
          $message = new Message();
@@ -33,6 +40,12 @@ class MessageController extends Controller
                  $images->save();
              }
          }
-         return back();
+         if(auth()->user()->role == 1){
+
+            return redirect()->route('open.ticket', ['ticketId' => $ticketId]);
+         }else{
+
+            return redirect()->route('view.ticket',['ticketId' => $ticketId]);
+         }
      }
 }
