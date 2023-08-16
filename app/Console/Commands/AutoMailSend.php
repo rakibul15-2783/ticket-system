@@ -61,6 +61,6 @@ class AutoMailSend extends Command
             }
         }
 
-        Artisan::call('queue:work --rest=30 --stop-when-empty');
+        Artisan::call('queue:work --rest=15 --stop-when-empty');
     }
 }
