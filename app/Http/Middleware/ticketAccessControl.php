@@ -18,7 +18,7 @@ class ticketAccessControl
     public function handle(Request $request, Closure $next)
     {
         $ticketId = $request->route('ticketId');
-        $ticket = Ticket::find($ticketId);
+        $ticket = Ticket::findOrfail($ticketId);
         if($request->user()->id == $ticket->assignto || $ticket->assignto == null) {
             return $next($request);
         }

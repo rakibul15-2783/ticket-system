@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\Images;
+use Carbon\Carbon;
 
 class TicketController extends Controller
 {
@@ -33,8 +34,8 @@ class TicketController extends Controller
      */
     public function openTicket($ticketId)
     {
+        $ticket   = Ticket::findOrfail($ticketId);
         $users    = User::where('role', 1)->get();
-        $ticket   = Ticket::find($ticketId);
         $messages = Message::orderBy('created_at','desc')->where('ticket_id', $ticketId)->get();
         $images   = Images::where('ticket_id', $ticketId)->get();
         
@@ -58,20 +59,43 @@ class TicketController extends Controller
       */
      public function status(Request $rqst, Ticket $ticket)
      {
-         if($rqst->status == 0){
-             $ticket->assignto = null;
-             $ticket->status = $rqst->status;
-             $ticket->flag = false;
-             $ticket->update();
-         }else{
-             $ticket->assignto = $rqst->assignto;
-             $ticket->status = $rqst->status;
-             $ticket->flag = true;
-             $ticket->update();
-         }
 
-         return redirect()->route('open.ticket', ['ticketId' => $ticket->id]);
+        if(!is_null($ticket->assignto) && $ticket->assignto != $rqst->assignto){
+           return $this->reassignedTicket($rqst, $ticket);
+
+        }else{
+
+            if($rqst->status == 0){
+                $ticket->assignto = null;
+                $ticket->status = $rqst->status;
+                $ticket->flag = false;
+                $ticket->update();
+            }else{
+                $ticket->assignto = $rqst->assignto;
+                $ticket->status = $rqst->status;
+                $ticket->flag = true;
+                $ticket->update();
+            }
+   
+            return redirect()->route('open.ticket', ['ticketId' => $ticket->id]);
+
+        }
+        
      }
+
+    /**
+     * Reassigned ticket to admin
+     */
+    protected function reassignedTicket($request, $ticket)
+    {
+        $ticket->assignto = $request->assignto;
+        $ticket->status = $request->status;
+        $ticket->flag = true;
+        $ticket->reassigned = $request->assignto;
+        $ticket->reassigned_time = Carbon::now();
+        $ticket->update();
+        return redirect()->route('show.tickets');
+    }
 
     /**
      * Search ticket by email

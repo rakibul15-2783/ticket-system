@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MessageRequest;
 use App\Models\Message;
 use App\Models\Images;
+use App\Models\Ticket;
 
 class MessageController extends Controller
 {
@@ -19,6 +20,9 @@ class MessageController extends Controller
       */
      public function message(MessageRequest $request, $ticketId)
      {
+
+         $this->updateTicktTable($ticketId);
+       
          $message = new Message();
          $message->message = $request->message;
          $message->user_id = auth()->user()->id;
@@ -46,6 +50,19 @@ class MessageController extends Controller
          }else{
 
             return redirect()->route('view.ticket',['ticketId' => $ticketId]);
+         }
+     }
+
+
+     protected function updateTicktTable($ticketId)
+     {
+         $ticket = Ticket::findOrfail($ticketId);
+
+         if(!is_null($ticket->reassigned) && !is_null($ticket->reassigned_time))
+         {
+            $ticket->reassigned = NULL;
+            $ticket->reassigned_time = NULL;
+            $ticket->save();
          }
      }
 }
