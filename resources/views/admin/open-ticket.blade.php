@@ -1,4 +1,7 @@
 @extends('admin.includes.master')
+@section('title')
+Ticket Details
+@endsection
 @section('main-content')
 {{-- image size --}}
 <style>
@@ -25,6 +28,9 @@
     overflow: scroll;
     border: 1px solid #ccc;
 }
+.disable-link{
+    pointer-events: none;
+}
 </style>
 <div class="row align-items-end">
     <div class="col-lg-9">
@@ -39,10 +45,11 @@
             <h5>Tickets</h5><br>
             <div class="card bg-white" style="width: 18rem;">
                 <ul class="list-group list-group-flush" id="listofTicket">
+
                   @foreach($ticketList as $singleTicket)
-                  <a href="" class="list-group-item">
+                  <a href="{{ route('open.ticket', ['ticketId' => $singleTicket->id]) }}" class="list-group-item {{ $singleTicket->assignto === auth()->user()->id || $singleTicket->assignto == '' ? '':'disable-link'}}">
                     <li>
-                         #000{{ $singleTicket->id }} - {{ $singleTicket->subject }}
+                         #{{ $singleTicket->id }} - {{ $singleTicket->subject }}
                     </li>
                   </a>
                   @endforeach
@@ -204,7 +211,13 @@
 </script>
 
 <script>
-setInterval(function() {
+ 
+ 
+ $(document).ready(function(){
+
+     let authUserId = <?php echo auth()->user()->id; ?>
+
+     setInterval(function() {
 
     let listofTicket = document.getElementById('listofTicket');
 
@@ -222,7 +235,7 @@ setInterval(function() {
                 let openTicket = "{{ route('open.ticket', ':ticketId') }}";
                 openTicket = openTicket.replace(':ticketId', ticketId);
 
-                listItem += ` <a href="${openTicket}" class="list-group-item">
+                listItem += ` <a href="${openTicket}" class="list-group-item ${item.assignto === authUserId || item.assignto == '' ? '':'disable-link'}">
                                 <li>
                                     #000${item.id} - ${item.subject}
                                 </li>
@@ -235,6 +248,9 @@ setInterval(function() {
         }
     });
 
-}, 10000);
+}, 60000);
+ });
+ 
+
 </script>
 @endsection

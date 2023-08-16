@@ -3,7 +3,7 @@
         <div class="pcoded-navigatio-lavel">Navigation</div>
         <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu {{ request()->is('admin-dashboard*') ? 'active':''}}">
-                <a href="">
+                <a href="{{ route('admin.dashboard') }}">
                     <span class="pcoded-micon"><i class="feather icon-home"></i></span>
                     <span class="pcoded-mtext">Dashboard</span>
                 </a>
@@ -17,39 +17,3 @@
         </ul>
     </div>
 </nav>
-<!-- 
-<script>
-setInterval(function() {
-
-    let listofTicket = document.getElementById('listofTicket');
-
-    $.ajax({
-
-        type: 'GET',
-        method: 'GET',
-        url: "{{ route('api.listofTicket') }}",
-        success: function(response) {
-
-            let listItem = '';
-            response.forEach(function(item) {
-
-                let ticketId = item.id;
-                let openTicket = "{{ route('open.ticket', ':ticketId') }}";
-                openTicket = openTicket.replace(':ticketId', ticketId);
-
-                listItem += `<a href="${openTicket}">
-                    <span class="pcoded-micon"><i class="fa-regular fa-paper-plane"></i></span>
-                    <span class="pcoded-mtext">
-                        #000${item.id} - ${item.subject}
-                    </span>
-                </a>`
-            });
-            listofTicket.innerHTML = listItem;
-        },
-        error: function(err) {
-            console.log(err);
-        }
-    });
-
-}, 10000);
-</script> -->

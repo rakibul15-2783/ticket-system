@@ -1,4 +1,7 @@
 @extends('admin.includes.master')
+@section('title')
+Tickets
+@endsection
 @section('main-content')
 <div class="row align-items-end">
     <div class="col-lg-9">
@@ -48,7 +51,7 @@
                         <div class="col-md-1">{{ $serialNumber }}</div>
                         <div class="col-md-2">{{ $ticket->category }}</div>
                         <div class="col-md-2">
-                            #000{{ $ticket->id }}<br>{{ $ticket->subject }}
+                            #{{ $ticket->id }}<br>{{ $ticket->subject }}
                             @if ($ticket->priority == 0)
                             <span class="badge badge-info"></span>
                             @elseif ($ticket->priority == 1 )

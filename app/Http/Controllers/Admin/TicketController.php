@@ -44,7 +44,7 @@ class TicketController extends Controller
             $ticket->save();
         }
 
-        return view('admin.open-ticket', compact('ticket', 'messages', 'users','images'));
+        return view('admin.open-ticket', compact('ticket', 'messages', 'users', 'images'));
     }
 
      /**
@@ -63,15 +63,14 @@ class TicketController extends Controller
              $ticket->status = $rqst->status;
              $ticket->flag = false;
              $ticket->update();
-             return redirect('show-tickets');
-         }
-         else{
+         }else{
              $ticket->assignto = $rqst->assignto;
              $ticket->status = $rqst->status;
              $ticket->flag = true;
              $ticket->update();
-             return redirect('show-tickets');
          }
+
+         return redirect()->route('open.ticket', ['ticketId' => $ticket->id]);
      }
 
     /**
