@@ -51,17 +51,13 @@
             </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6">
-            @if($ticket->status !=3)
             <div class="chat-message " >
                 <form action="{{ route('message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="input-group col-lg-6 mb-0">
                             <textarea type="text" name="message" class="form-control" placeholder="Reply here..."></textarea>
-                            @error('message')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div><br>
+                        </div>
                         <div class="input-group col-lg-6 mb-0">
                             <input class="form-control mr-3"  name="images[]" id="images" type="file" multiple />
                             <button class="btn btn-info text-center"><i class="fa-regular fa-paper-plane"></i></button>
@@ -69,12 +65,18 @@
                     </div>
                 </form>
                 <div class="row file-type">
-                    <div class="input-group col-lg-6 mb-0 ">
-
+                    <div class="input-group col-lg-6 mb-0 mt-1">
+                    @if($errors->has('message'))
+                        <span class="text-danger">Message field is required!</span>
+                    @endif
                    </div><br>
-                    <div class="input-group col-lg-6 mb-0">
+                    <div class="input-group col-lg-6 mb-0 mt-1">
                         <div id="">
+                        @if($errors->has('images*'))
+                            <span class="text-danger">File type must be jpeg, png, jpg, gif</span>
+                        @else 
                             <span>File type: jpeg, png, jpg, gif</span>
+                        @endif   
                         </div>
                     </div>
                 </div>
@@ -87,7 +89,6 @@
                     </div>
                 </div>
             </div><br>
-            @endif
             <div class="messages card">
             @if(!$messages->isEmpty())
                 @foreach ($messages as $message)
