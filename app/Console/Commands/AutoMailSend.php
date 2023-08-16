@@ -6,6 +6,7 @@ use App\Jobs\ReportJob;
 use Illuminate\Console\Command;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Artisan;
+use Carbon\Carbon;
 
 class AutoMailSend extends Command
 {
@@ -44,8 +45,18 @@ class AutoMailSend extends Command
 
         if (!$tickets->isEmpty()) {
             foreach ($tickets as $ticket) {
-                if (isset($ticket->assignee) && isset($ticket->assignee->email)) {
+
+                $to            = new Carbon($ticket->reassigned_time);
+                $from          = new Carbon(Carbon::now());
+                $diffInMinutes = $to->diffInMinutes($from);
+
+                if (isset($ticket->assignee) && $diffInMinutes > 30) {
+
                     dispatch(new ReportJob($ticket));
+
+                    $ticket->reassigned = null;
+                    $ticket->reassigned_time = null;
+                    $ticket->save();
                 }
             }
         }
