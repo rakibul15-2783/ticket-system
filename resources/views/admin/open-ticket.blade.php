@@ -59,7 +59,7 @@ Ticket Details
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6">
             <div class="chat-message " >
-                <form action="{{ route('message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="input-group col-lg-6 mb-0">
@@ -81,9 +81,9 @@ Ticket Details
                         <div id="">
                         @if($errors->has('images*'))
                             <span class="text-danger">File type must be jpeg, png, jpg, gif</span>
-                        @else 
+                        @else
                             <span>File type: jpeg, png, jpg, gif</span>
-                        @endif   
+                        @endif
                         </div>
                     </div>
                 </div>
@@ -179,7 +179,6 @@ Ticket Details
                                     @endforeach
                                 </select><br>
                                 <select name="status" class="form-control text-center" id="status">
-                                    <option value="0" @if ($ticket->status === 0) selected @endif>Unassigned</option>
                                     <option value="1" @if ($ticket->status === 1) selected @endif>Assigned</option>
                                     <option value="2" @if ($ticket->status === 2) selected @endif>Processing</option>
                                     <option value="3" @if ($ticket->status === 3) selected @endif>Closed</option>
@@ -211,8 +210,8 @@ Ticket Details
 </script>
 
 <script>
- 
- 
+
+
  $(document).ready(function(){
 
      let authUserId = <?php echo auth()->user()->id; ?>
@@ -250,7 +249,7 @@ Ticket Details
 
 }, 60000);
  });
- 
+
 
 </script>
 @endsection

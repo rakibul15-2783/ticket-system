@@ -14,8 +14,8 @@ class TicketController extends Controller
     public function showTicket(){
         $user = auth()->user()->id;
         $tickets = Ticket::where('user_id', $user)->orderByDesc('created_at')->paginate(10);
-        
-        return view('user.show-ticket',compact('tickets'));
+        $messages = Message::all();
+        return view('user.show-ticket',compact('tickets','messages'));
        }
 
        public function ticket(){
@@ -50,6 +50,13 @@ class TicketController extends Controller
             $ticket = Ticket::find($ticketId);
             $messages = Message::where('ticket_id', $ticketId)->get();
             $images = Images::where('ticket_id', $ticketId)->get();
+
+            $message = Message::where('ticket_id', $ticketId)->latest()->first();
+
+            if ($message) {
+                $message->user_view = 2;
+                $message->save();
+            }
 
             return view('user.view-ticket',compact('ticket','messages','images'));
        }

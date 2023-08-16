@@ -33,8 +33,9 @@ Tickets
                     <div class="col-md-1"><b>SL</b></div>
                     <div class="col-md-2"><b>Department</b></div>
                     <div class="col-md-2"><b>Subject</b></div>
-                    <div class="col-md-3"><b>Assign to</b></div>
-                    <div class="col-md-2"><b>Status</b></div>
+                    <div class="col-md-2"><b>Assign to</b></div>
+                    <div class="col-md-2"><b>Reply</b></div>
+                    <div class="col-md-1"><b>Status</b></div>
                     <div class="col-md-2"><b>Last Update</b></div>
                 </div>
             </li>
@@ -60,7 +61,7 @@ Tickets
                             <span class="badge badge-danger"></span>
                             @endif
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             @if ($ticket->assignee)
                                {{ $ticket->assignee->email }}
                             @else
@@ -68,6 +69,17 @@ Tickets
                             @endif
                         </div>
                         <div class="col-md-2">
+                            @if ($ticket->latestMessage)
+                            @if ($ticket->latestMessage->admin_view == 1)
+                                <span class="badge badge-danger">Customer Reply</span>
+                            @elseif ($ticket->latestMessage->admin_view == 2 && $ticket->latestMessage->admin_flag == true)
+                                <span class="badge badge-danger">Replied</span>
+                            @elseif ($ticket->latestMessage->admin_view == 2)
+                                <span class="badge badge-danger">Seen by me</span>
+                            @endif
+                        @endif
+                        </div>
+                        <div class="col-md-1">
                             @if ($ticket->status == 0)
                                <span class="badge badge-danger">Open</span>
                             @elseif ($ticket->status == 1 )

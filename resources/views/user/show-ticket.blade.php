@@ -27,8 +27,9 @@
                     <div class="col-md-1"><b>Sl</b></div>
                     <div class="col-md-2"><b>Department</b></div>
                     <div class="col-md-2"><b>Subject</b></div>
-                    <div class="col-md-3"><b>Assign to</b></div>
-                    <div class="col-md-2"><b>Status</b></div>
+                    <div class="col-md-2"><b>Assign to</b></div>
+                    <div class="col-md-2"><b>Reply</b></div>
+                    <div class="col-md-1"><b>Status</b></div>
                     <div class="col-md-2"><b>Last Update</b></div>
                 </div>
             </li>
@@ -42,7 +43,8 @@
                     <div class="col-md-1">{{ $serialNumber }}</div>
                     <div class="col-md-2">{{ $ticket->category }}</div>
                     <div class="col-md-2">#000{{ $ticket->id }}<br>{{ $ticket->subject }}</div>
-                    <div class="col-md-3">
+
+                    <div class="col-md-2">
                         @if ($ticket->assignee)
                             {{ $ticket->assignee->email }}
                         @else
@@ -50,6 +52,17 @@
                         @endif
                     </div>
                     <div class="col-md-2">
+                        @if ($ticket->latestMessage)
+                            @if ($ticket->latestMessage->user_view == 1)
+                                <span class="badge badge-danger">Admin Reply</span>
+                            @elseif ($ticket->latestMessage->user_view == 2 && $ticket->latestMessage->user_flag == true)
+                                <span class="badge badge-danger">Replied</span>
+                            @elseif ($ticket->latestMessage->user_view == 2)
+                                <span class="badge badge-danger">Seen by me</span>
+                            @endif
+                        @endif
+                    </div>
+                    <div class="col-md-1">
                         @if ($ticket->status == 0)
                         <span class="badge badge-danger">Not Open</span>
                         @elseif ($ticket->status == 1 )

@@ -15,21 +15,22 @@ class TicketController extends Controller
 
     /**
      * Show list of ticket
-     * 
+     *
      * @return Array of ticket
      */
     public function showTickets()
     {
         $tickets = Ticket::orderBy('id','desc')->paginate(10);
+        $messages = Message::all();
 
-        return view('admin.show-tickets', compact('tickets'));
+        return view('admin.show-tickets', compact('tickets','messages'));
     }
 
     /**
      * View single ticket
-     * 
+     *
      * @param int $ticketId
-     * 
+     *
      * @return View
      */
     public function openTicket($ticketId)
@@ -38,12 +39,21 @@ class TicketController extends Controller
         $users    = User::where('role', 1)->get();
         $messages = Message::orderBy('created_at','desc')->where('ticket_id', $ticketId)->get();
         $images   = Images::where('ticket_id', $ticketId)->get();
-        
+
+
         if($ticket->flag == false){
             $ticket->assignto = auth()->user()->id;
             $ticket->status = 1;
             $ticket->save();
         }
+
+        $message = Message::where('ticket_id', $ticketId)->latest()->first();
+
+            if ($message) {
+                $message->admin_view = 2;
+                $message->save();
+            }
+
 
         return view('admin.open-ticket', compact('ticket', 'messages', 'users', 'images'));
     }
@@ -76,11 +86,11 @@ class TicketController extends Controller
                 $ticket->flag = true;
                 $ticket->update();
             }
-   
+
             return redirect()->route('open.ticket', ['ticketId' => $ticket->id]);
 
         }
-        
+
      }
 
     /**
@@ -99,7 +109,7 @@ class TicketController extends Controller
 
     /**
      * Search ticket by email
-     * 
+     *
      * @param @param Illuminate\Http\Request $request
      */
     public function search(Request $request){

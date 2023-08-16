@@ -7,6 +7,10 @@
     gap: 10px;
 }
 
+.text-color{
+    color: #000;
+}
+
 .thumbnail img {
     width: 100px;
     height: 100px;
@@ -70,7 +74,7 @@
         <div class="col-md-12 col-lg-8">
             @if($ticket->status !=3)
             <div class="chat-message " >
-                <form action="{{ route('userMessage.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('user.message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="input-group col-lg-6 mb-0">
@@ -121,7 +125,7 @@
                     @endif
 
                 </div>
-                <div class="card-body">
+                <div class="card-body text-color">
                         <p>{{ $message->message }}</p>
                 </div>
                 <div class="image-container ml-4">
