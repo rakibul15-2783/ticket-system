@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use DB;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $ticketList = Ticket::orderBy('id','desc')->get();
         View::share('ticketList',$ticketList);
+        Schema::defaultStringLength(191);
     }
 }
