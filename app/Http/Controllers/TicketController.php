@@ -7,6 +7,7 @@ use App\Http\Requests\CreateTicketRequest;
 use App\Models\Ticket;
 use App\Models\Message;
 use App\Models\Images;
+use App\Jobs\TicketCreateSuccessJob;
 
 class TicketController extends Controller
 {
@@ -28,13 +29,17 @@ class TicketController extends Controller
 
         $ticket = new Ticket();
         $ticket->user_id = $user_id;
-        $ticket->name = $request->name;
-        $ticket->email = $request->email;
+        $ticket->name = auth()->user()->name;
+        $ticket->email = auth()->user()->email;
         $ticket->subject = $request->subject;
         $ticket->category = $request->category;
         $ticket->priority = $request->priority;
         $ticket->des = $request->des;
         $ticket->save();
+
+        $mail = $ticket->email;
+        $sendMail = new TicketCreateSuccessJob($mail,$ticket);
+        dispatch($sendMail);
 
         return redirect('show-ticket')->with('success', 'Ticket Created Successfully');
         }

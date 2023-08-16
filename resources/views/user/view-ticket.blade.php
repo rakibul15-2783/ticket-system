@@ -57,9 +57,9 @@
                     @endif
                     @if ($ticket->priority == 0)
                        <span >/ Low</span>
-                    @elseif ($ticket->status == 1 )
+                    @elseif ($ticket->priority == 1 )
                        <span >/ Medium</span>
-                    @elseif ($ticket->status == 2 )
+                    @elseif ($ticket->priority == 2 )
                        <span >/ High</span>
                     @endif
               </li>
