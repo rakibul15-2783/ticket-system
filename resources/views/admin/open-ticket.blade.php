@@ -85,7 +85,7 @@ Ticket Details
 
                     </div>
                     <div class="card-body">
-                        <p>{{ $message->message }}</p>
+                        <p class='text-color'>{{ $message->message }}</p>
                     </div>
                     <div class="image-container ml-4 ">
                         @if ($message->images->count() > 0)
