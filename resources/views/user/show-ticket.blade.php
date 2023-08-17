@@ -9,9 +9,9 @@
     </div>
     <div class="text-right">
         @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
         @endif
     </div>
 </div><br>
@@ -34,54 +34,54 @@
                 </div>
             </li>
             <li>
-            @foreach ($tickets->sortByDesc('created_at') as $sl => $ticket)
-            @php
+                @foreach ($tickets->sortByDesc('created_at') as $sl => $ticket)
+                @php
                 $serialNumber = ($tickets->currentPage() - 1) * $tickets->perPage() + $sl + 1;
-            @endphp
-            <a href="{{ route('view.ticket',['ticketId' => $ticket->id]) }}" class="list-group-item list-group-item">
-                <div class="row">
-                    <div class="col-md-1">{{ $serialNumber }}</div>
-                    <div class="col-md-2">{{ $ticket->category }}</div>
-                    <div class="col-md-2">#000{{ $ticket->id }}<br>{{ $ticket->subject }}</div>
+                @endphp
+                <a href="{{ route('view.ticket',['ticketId' => $ticket->id]) }}" class="list-group-item list-group-item">
+                    <div class="row">
+                        <div class="col-md-1">{{ $serialNumber }}</div>
+                        <div class="col-md-2">{{ $ticket->category }}</div>
+                        <div class="col-md-2">#{{ $ticket->id }}<br>{{ $ticket->subject }}</div>
 
-                    <div class="col-md-2">
-                        @if ($ticket->assignee)
+                        <div class="col-md-2">
+                            @if ($ticket->assignee)
                             {{ $ticket->assignee->email }}
-                        @else
+                            @else
                             Not Assigned
-                        @endif
-                    </div>
-                    <div class="col-md-2">
-                        @if ($ticket->latestMessage)
-                            @if ($ticket->latestMessage->user_view == 1)
-                                <span class="badge badge-danger">Admin Reply</span>
-                            @elseif ($ticket->latestMessage->user_view == 2 && $ticket->latestMessage->user_flag == true)
-                                <span class="badge badge-danger">Replied</span>
-                            @elseif ($ticket->latestMessage->user_view == 2)
-                                <span class="badge badge-danger">Seen by me</span>
                             @endif
-                        @endif
-                    </div>
-                    <div class="col-md-1">
-                        @if ($ticket->status == 0)
-                        <span class="badge badge-danger">Not Open</span>
-                        @elseif ($ticket->status == 1 )
-                        <span class="badge badge-success">Assigned</span>
-                        @elseif ($ticket->status == 2 )
-                        <span class="badge badge-info">Processing</span>s
-                        @elseif ($ticket->status == 3)
-                        <span class="badge badge-warning">Closed</span>
-                        @endif
-                    </div>
-                    <div class="col-md-2">
-                        @if ($ticket->latestMessage)
+                        </div>
+                        <div class="col-md-2">
+                            @if ($ticket->latestMessage)
+                            @if ($ticket->latestMessage->user_view == 1)
+                            <span class="badge badge-danger">Admin Reply</span>
+                            @elseif ($ticket->latestMessage->user_view == 2 && $ticket->latestMessage->user_flag == true)
+                            <span class="badge badge-danger">Replied</span>
+                            @elseif ($ticket->latestMessage->user_view == 2)
+                            <span class="badge badge-danger">Seen by me</span>
+                            @endif
+                            @endif
+                        </div>
+                        <div class="col-md-1">
+                            @if ($ticket->status == 0)
+                            <span class="badge badge-danger">Not Open</span>
+                            @elseif ($ticket->status == 1 )
+                            <span class="badge badge-success">Assigned</span>
+                            @elseif ($ticket->status == 2 )
+                            <span class="badge badge-info">Processing</span>
+                            @elseif ($ticket->status == 3)
+                            <span class="badge badge-warning">Closed</span>
+                            @endif
+                        </div>
+                        <div class="col-md-2">
+                            @if ($ticket->latestMessage)
                             <span class="badge badge-success">{{ $ticket->latestMessage->created_at->format('d-m-Y (h:i A)') }}</span>
-                        @else
-                             <span class="badge badge-secondary">No updated yet</span>
-                        @endif
+                            @else
+                            <span class="badge badge-secondary">No updated yet</span>
+                            @endif
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
             </li>
 
             @endforeach
@@ -95,6 +95,4 @@
     </div>
 </div>
 
- @endsection
-
-
+@endsection

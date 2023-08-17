@@ -20,10 +20,10 @@ class TicketController extends Controller
      */
     public function showTickets()
     {
-        $tickets = Ticket::orderBy('id','desc')->paginate(10);
+        $tickets = Ticket::orderBy('id', 'desc')->paginate(10);
         $messages = Message::all();
 
-        return view('admin.show-tickets', compact('tickets','messages'));
+        return view('admin.show-tickets', compact('tickets', 'messages'));
     }
 
     /**
@@ -37,11 +37,12 @@ class TicketController extends Controller
     {
         $ticket   = Ticket::findOrfail($ticketId);
         $users    = User::where('role', 1)->get();
-        $messages = Message::orderBy('created_at','desc')->where('ticket_id', $ticketId)->get();
+        $messages = Message::orderBy('created_at', 'desc')->where('ticket_id', $ticketId)->get();
         $images   = Images::where('ticket_id', $ticketId)->get();
 
 
-        if($ticket->flag == false){
+        if ($ticket->flag == false) {
+
             $ticket->assignto = auth()->user()->id;
             $ticket->status = 1;
             $ticket->save();
@@ -49,38 +50,38 @@ class TicketController extends Controller
 
         $message = Message::where('ticket_id', $ticketId)->latest()->first();
 
-            if ($message) {
-                $message->admin_view = 2;
-                $message->save();
-            }
+        if ($message) {
+
+            $message->admin_view = 2;
+            $message->save();
+        }
 
 
         return view('admin.open-ticket', compact('ticket', 'messages', 'users', 'images'));
     }
 
-     /**
-      * Change status of ticket and assign to Admin
-      *
-      * @param Illuminate\Http\Request $rqst
-      * @param Object of Ticket Model
-      *
-      * @return RedirectResponse
-      *
-      */
-     public function status(Request $rqst, Ticket $ticket)
-     {
+    /**
+     * Change status of ticket and assign to Admin
+     *
+     * @param Illuminate\Http\Request $rqst
+     * @param Object of Ticket Model
+     *
+     * @return RedirectResponse
+     *
+     */
+    public function status(Request $rqst, Ticket $ticket)
+    {
 
-        if(!is_null($ticket->assignto) && $ticket->assignto != $rqst->assignto){
-           return $this->reassignedTicket($rqst, $ticket);
+        if (!is_null($ticket->assignto) && $ticket->assignto != $rqst->assignto) {
+            return $this->reassignedTicket($rqst, $ticket);
+        } else {
 
-        }else{
-
-            if($rqst->status == 0){
+            if ($rqst->status == 0) {
                 $ticket->assignto = null;
                 $ticket->status = $rqst->status;
                 $ticket->flag = false;
                 $ticket->update();
-            }else{
+            } else {
                 $ticket->assignto = $rqst->assignto;
                 $ticket->status = $rqst->status;
                 $ticket->flag = true;
@@ -88,10 +89,8 @@ class TicketController extends Controller
             }
 
             return redirect()->route('open.ticket', ['ticketId' => $ticket->id]);
-
         }
-
-     }
+    }
 
     /**
      * Reassigned ticket to admin
@@ -110,17 +109,18 @@ class TicketController extends Controller
     /**
      * Search ticket by email
      *
-     * @param @param Illuminate\Http\Request $request
+     *  @param Illuminate\Http\Request $request
      */
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $search = $request->input('search');
         $tickets = Ticket::join('users', 'tickets.assignto', '=', 'users.id')
-                    ->where('users.email', 'LIKE', '%' . $search . '%')
-                    ->select('tickets.*')
-                    ->orderByDesc('created_at')
-                    ->paginate(10);
+            ->where('users.email', 'LIKE', '%' . $search . '%')
+            ->select('tickets.*')
+            ->orderByDesc('created_at')
+            ->paginate(10);
 
-         return view('admin.search-tickets', compact('tickets'));
+        return view('admin.search-tickets', compact('tickets'));
     }
 
     /**

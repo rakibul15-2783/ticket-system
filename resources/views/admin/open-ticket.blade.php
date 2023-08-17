@@ -6,59 +6,62 @@ Ticket Details
 {{-- image size --}}
 <style>
     .image-container {
-    display: flex;
-    gap: 10px;
-}
+        display: flex;
+        gap: 10px;
+    }
 
-.text-color{
-    color: #000;
-}
+    .text-color {
+        color: #000;
+    }
 
-.thumbnail img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border: 1px solid #ccc;
-}
-.messages {
-    padding: 10px;
-    color: #000;
-    padding: 15px;
-    height: 760px;
-    overflow: scroll;
-    border: 1px solid #ccc;
-}
-.disable-link{
-    pointer-events: none;
-}
+    .thumbnail img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 1px solid #ccc;
+    }
+
+    .messages {
+        padding: 10px;
+        color: #000;
+        padding: 15px;
+        height: 760px;
+        overflow: scroll;
+        border: 1px solid #ccc;
+    }
+
+    .disable-link {
+        pointer-events: none;
+    }
 </style>
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">
-            <p>/ Tickets / ticket_id #000{{$ticket->id}}</p>
+            <p>/ Tickets / ticket_id #{{$ticket->id}}</p>
         </div>
     </div>
 </div><br>
 <div class="page-wrapper p-0">
-   <div class="row">
-       <div class="col-sm-12 col-md-3 col-lg-3">
+    <div class="row">
+        <div class="col-sm-12 col-md-3 col-lg-3">
             <h5>Tickets</h5><br>
             <div class="card bg-white" style="width: 18rem;">
                 <ul class="list-group list-group-flush" id="listofTicket">
 
-                  @foreach($ticketList as $singleTicket)
-                  <a href="{{ route('open.ticket', ['ticketId' => $singleTicket->id]) }}" class="list-group-item {{ $singleTicket->assignto === auth()->user()->id || $singleTicket->assignto == '' ? '':'disable-link'}}">
-                    <li>
-                         #{{ $singleTicket->id }} - {{ $singleTicket->subject }}
-                    </li>
-                  </a>
-                  @endforeach
+                    @foreach($ticketList as $singleTicket)
+                    <a href="{{ route('open.ticket', ['ticketId' => $singleTicket->id]) }}" class="list-group-item {{ $singleTicket->assignto === auth()->user()->id || $singleTicket->assignto == '' ? '':'disable-link'}}">
+                        <li>
+                            #{{ $singleTicket->id }} - {{ $singleTicket->subject }}
+                        </li>
+                    </a>
+                    @endforeach
                 </ul>
 
             </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6">
-            <div class="chat-message " >
+            @if($ticket->status !=3)
+            <div class="chat-message ">
                 <form action="{{ route('admin.message.post',['ticketId' => $ticket->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
@@ -66,24 +69,24 @@ Ticket Details
                             <textarea type="text" name="message" class="form-control" placeholder="Reply here..."></textarea>
                         </div>
                         <div class="input-group col-lg-6 mb-0">
-                            <input class="form-control mr-3"  name="images[]" id="images" type="file" multiple />
+                            <input class="form-control mr-3" name="images[]" id="images" type="file" multiple />
                             <button class="btn btn-info text-center"><i class="fa-regular fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </form>
                 <div class="row file-type">
                     <div class="input-group col-lg-6 mb-0 mt-1">
-                    @if($errors->has('message'))
+                        @if($errors->has('message'))
                         <span class="text-danger">Message field is required!</span>
-                    @endif
-                   </div><br>
+                        @endif
+                    </div><br>
                     <div class="input-group col-lg-6 mb-0 mt-1">
                         <div id="">
-                        @if($errors->has('images*'))
+                            @if($errors->has('images*'))
                             <span class="text-danger">File type must be jpeg, png, jpg, gif</span>
-                        @else
+                            @else
                             <span>File type: jpeg, png, jpg, gif</span>
-                        @endif
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -96,8 +99,9 @@ Ticket Details
                     </div>
                 </div>
             </div><br>
+            @endif
             <div class="messages card">
-            @if(!$messages->isEmpty())
+                @if(!$messages->isEmpty())
                 @foreach ($messages as $message)
                 <div class="card rounded border">
                     <div class="card-header bg-light p-2 {{ $message->user->role==1 ? 'border-primary':'border-success'}}">
@@ -109,25 +113,25 @@ Ticket Details
 
                     </div>
                     <div class="card-body">
-                            <p>{{ $message->message }}</p>
+                        <p>{{ $message->message }}</p>
                     </div>
                     <div class="image-container ml-4 ">
                         @if ($message->images->count() > 0)
-                            @foreach ($message->images as $image)
-                            <div class="thumbnail ">
-                                <img src="{{ asset('upload/images/'.$image->images) }}"  alt="Uploaded Image">
-                            </div>
-                            @endforeach
+                        @foreach ($message->images as $image)
+                        <div class="thumbnail ">
+                            <img src="{{ asset('upload/images/'.$image->images) }}" alt="Uploaded Image">
+                        </div>
+                        @endforeach
                         @endif
                     </div>
                 </div>
                 @endforeach
-            @endif
+                @endif
 
-            @if(!is_null($ticket))
+                @if(!is_null($ticket))
                 <div class="card border-success ">
                     <div class="card-header bg-light p-2">
-                    <small class="text-dark"><b>{{ $ticket->name }}</b></small></small><br><small class="text-dark">{{ $ticket->email }}</small><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
+                        <small class="text-dark"><b>{{ $ticket->name }}</b></small></small><br><small class="text-dark">{{ $ticket->email }}</small><span class="text-right">{{ $ticket->created_at->format('F j, Y, g:i A') }}</span>
                     </div>
                     <div class="card-body">
                         <div class="mb-0">
@@ -135,18 +139,27 @@ Ticket Details
                         </div>
                     </div>
                 </div>
-            @endif
-        </div>
+                @endif
+            </div>
         </div>
         <div class="col-sm-12 col-md-3 col-lg-3">
             <h5>Ticket Information</h5><br>
             <div class="card bg-white" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><p><b>Name: </b></p> {{ $ticket->name }}</li>
-                  <li class="list-group-item"><p><b>Email:</b> </p>{{ $ticket->email }}</li>
-                  <li class="list-group-item"><p><b>Subject:</b></p> {{ $ticket->subject }}</li>
-                  <li class="list-group-item"><p><b>Category:</b></p> {{ $ticket->category }}</li>
-                  <li class="list-group-item"><p><b>Status/Priority:</b> </p>
+                    <li class="list-group-item">
+                        <p><b>Name: </b></p> {{ $ticket->name }}
+                    </li>
+                    <li class="list-group-item">
+                        <p><b>Email:</b> </p>{{ $ticket->email }}
+                    </li>
+                    <li class="list-group-item">
+                        <p><b>Subject:</b></p> {{ $ticket->subject }}
+                    </li>
+                    <li class="list-group-item">
+                        <p><b>Category:</b></p> {{ $ticket->category }}
+                    </li>
+                    <li class="list-group-item">
+                        <p><b>Status/Priority:</b> </p>
                         @if ($ticket->status == 0)
                         <span class="badge badge-danger">NOT OPEN</span>
                         @elseif ($ticket->status == 1 )
@@ -157,25 +170,26 @@ Ticket Details
                         <span class="badge badge-success">CLOSED</span>
                         @endif
                         @if ($ticket->priority == 0)
-                        <span >/ Low</span>
+                        <span>/ Low</span>
                         @elseif ($ticket->status == 1 )
-                        <span >/ Medium</span>
+                        <span>/ Medium</span>
                         @elseif ($ticket->status == 2 )
-                        <span >/ High</span>
+                        <span>/ High</span>
                         @endif
-                 </li>
+                    </li>
                 </ul>
             </div>
             <div class="card bg-white" style="width: 18rem;">
                 <div class="text-center">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><p><b>Assign to </b></p>
+                        <li class="list-group-item">
+                            <p><b>Assign to </b></p>
 
                             <form action="{{ route('status.post', ['ticket' => $ticket]) }}" method="POST">
                                 @csrf
                                 <select name="assignto" class="text-center form-control" id="assignto">
                                     @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" {{ $ticket->assignto === $user->id ? "selected" : ""}}>{{$user->email}}</option>
+                                    <option value="{{ $user->id }}" {{ $ticket->assignto === $user->id ? "selected" : ""}}>{{$user->email}}</option>
                                     @endforeach
                                 </select><br>
                                 <select name="status" class="form-control text-center" id="status">
@@ -192,17 +206,17 @@ Ticket Details
                 </div>
             </div>
         </div>
-   </div>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
-    jQuery(document).ready(function(){
-        jQuery('#images').on('change', function(){
+    jQuery(document).ready(function() {
+        jQuery('#images').on('change', function() {
             jQuery('.file-type').hide();
             var files = jQuery(this).prop('files');
             var selectedFileText = '';
-            for(var i = 0; i< files.length; i++){
-                selectedFileText += ' ' +'<span>' + files[i].name + ' , ' + '</span>' ;
+            for (var i = 0; i < files.length; i++) {
+                selectedFileText += ' ' + '<span>' + files[i].name + ' , ' + '</span>';
             }
             jQuery('#selected-files').html(selectedFileText);
         });
@@ -210,46 +224,42 @@ Ticket Details
 </script>
 
 <script>
+    $(document).ready(function() {
 
+        let authUserId = <?php echo auth()->user()->id; ?>
 
- $(document).ready(function(){
+        setInterval(function() {
 
-     let authUserId = <?php echo auth()->user()->id; ?>
+            let listofTicket = document.getElementById('listofTicket');
 
-     setInterval(function() {
+            $.ajax({
 
-    let listofTicket = document.getElementById('listofTicket');
+                type: 'GET',
+                method: 'GET',
+                url: "{{ route('api.listofTicket') }}",
+                success: function(response) {
 
-    $.ajax({
+                    let listItem = '';
+                    response.forEach(function(item) {
 
-        type: 'GET',
-        method: 'GET',
-        url: "{{ route('api.listofTicket') }}",
-        success: function(response) {
+                        let ticketId = item.id;
+                        let openTicket = "{{ route('open.ticket', ':ticketId') }}";
+                        openTicket = openTicket.replace(':ticketId', ticketId);
 
-            let listItem = '';
-            response.forEach(function(item) {
-
-                let ticketId = item.id;
-                let openTicket = "{{ route('open.ticket', ':ticketId') }}";
-                openTicket = openTicket.replace(':ticketId', ticketId);
-
-                listItem += ` <a href="${openTicket}" class="list-group-item ${item.assignto === authUserId || item.assignto == '' ? '':'disable-link'}">
+                        listItem += ` <a href="${openTicket}" class="list-group-item ${item.assignto === authUserId || item.assignto == '' ? '':'disable-link'}">
                                 <li>
                                     #000${item.id} - ${item.subject}
                                 </li>
                             </a>`
+                    });
+                    listofTicket.innerHTML = listItem;
+                },
+                error: function(err) {
+                    console.log(err);
+                }
             });
-            listofTicket.innerHTML = listItem;
-        },
-        error: function(err) {
-            console.log(err);
-        }
+
+        }, 60000);
     });
-
-}, 60000);
- });
-
-
 </script>
 @endsection

@@ -18,8 +18,8 @@ class userTicketAccessControl
     public function handle(Request $request, Closure $next)
     {
         $ticketId = $request->route('ticketId');
-        $ticket = Ticket::find($ticketId);
-        if($request->user()->email == $ticket->email ) {
+        $ticket = Ticket::findOrfail($ticketId);
+        if ($request->user()->email == $ticket->email) {
             return $next($request);
         }
         return back();
