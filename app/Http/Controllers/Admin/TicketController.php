@@ -41,10 +41,11 @@ class TicketController extends Controller
         $images   = Images::where('ticket_id', $ticketId)->get();
 
 
-        if ($ticket->flag == false) {
+        if ($ticket->flag == false && $ticket->status != 3) {
 
             $ticket->assignto = auth()->user()->id;
             $ticket->status = 1;
+            $ticket->flag = true;
             $ticket->save();
         }
 

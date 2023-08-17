@@ -1,0 +1,32 @@
+.image-container {
+    display: flex;
+    gap: 10px;
+}
+
+.text-color {
+    color: #000;
+}
+
+.thumbnail img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+.messages {
+    padding: 10px;
+    color: white;
+    padding: 15px;
+    height: 760px;
+    overflow: scroll;
+    border: 1px solid #ccc;
+}
+
+#closeTicketModal{
+    top: 25%!important;
+}
+
+.disable-link {
+    pointer-events: none;
+}

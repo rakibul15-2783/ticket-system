@@ -32,6 +32,7 @@ Route::middleware('auth', 'user')->group(function () {
     Route::post('/store-ticket', [TicketController::class, 'storeTicket'])->name('store.ticket');
     Route::get('/view-ticket/{ticketId}', [TicketController::class, 'viewTicket'])->name('view.ticket')->middleware('user.ticket');
     Route::post('/user-message-post/{ticketId}', [MessageController::class, 'userMessage'])->name('user.message.post');
+    Route::get('/close-ticket/{ticketId}', [TicketController::class, 'closeTicket'])->name('close.ticket');
 });
 //for admin
 Route::middleware('auth', 'admin')->group(function () {

@@ -3,37 +3,9 @@
 Ticket Details
 @endsection
 @section('main-content')
-{{-- image size --}}
-<style>
-    .image-container {
-        display: flex;
-        gap: 10px;
-    }
 
-    .text-color {
-        color: #000;
-    }
+<link rel="stylesheet" href="{{ asset('admin') }}\files\assets\css\custom.css">
 
-    .thumbnail img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border: 1px solid #ccc;
-    }
-
-    .messages {
-        padding: 10px;
-        color: #000;
-        padding: 15px;
-        height: 760px;
-        overflow: scroll;
-        border: 1px solid #ccc;
-    }
-
-    .disable-link {
-        pointer-events: none;
-    }
-</style>
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">

@@ -64,4 +64,13 @@ class TicketController extends Controller
 
         return view('user.view-ticket', compact('ticket', 'messages', 'images'));
     }
+
+    public function closeTicket($ticketId){
+
+        $ticket = Ticket::findOrfail($ticketId);
+        $ticket->status = 3;
+        $ticket->save();
+
+        return back();
+    }
 }

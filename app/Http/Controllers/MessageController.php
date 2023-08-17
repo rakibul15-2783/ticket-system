@@ -101,6 +101,11 @@ class MessageController extends Controller
             }
         }
 
+        //change status to processing
+        Ticket::where('id',$ticketId)->update(['status'=>2]);
+
+        //dd("updated");
+
         return redirect()->route('open.ticket', ['ticketId' => $ticketId]);
     }
 
@@ -114,5 +119,7 @@ class MessageController extends Controller
             $ticket->reassigned_time = NULL;
             $ticket->save();
         }
+
+
     }
 }

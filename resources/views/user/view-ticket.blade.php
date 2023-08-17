@@ -1,32 +1,8 @@
 @extends('user.includes.master')
 @section('main-content')
-{{-- image size --}}
-<style>
-    .image-container {
-        display: flex;
-        gap: 10px;
-    }
 
-    .text-color {
-        color: #000;
-    }
+<link rel="stylesheet" href="{{ asset('admin') }}\files\assets\css\custom.css">
 
-    .thumbnail img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border: 1px solid #ccc;
-    }
-
-    .messages {
-        padding: 10px;
-        color: white;
-        padding: 15px;
-        height: 760px;
-        overflow: scroll;
-        border: 1px solid #ccc;
-    }
-</style>
 <div class="row align-items-end">
     <div class="col-lg-9">
         <div class="page-header-title">
@@ -77,6 +53,10 @@
                     @endif
                 </li>
             </ul>
+            @if ($ticket->status != 3)
+                <button class="btn btn-success" data-toggle="modal" data-target="#closeTicketModal">Close Ticket</button>
+            @endif
+
         </div>
     </div>
     @endif
@@ -161,6 +141,27 @@
         </div>
     </div>
 </div>
+ <!-- Modal -->
+ <div class="modal fade" id="closeTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Close Ticket </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        Are you sure want to close this ticket?
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <a href= "{{ route('close.ticket',['ticketId' => $ticket->id]) }}" class="btn btn-primary">Yes</a>
+        </div>
+    </div>
+    </div>
+</div>
+<!--//-->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
     jQuery(document).ready(function() {
